@@ -1,8 +1,64 @@
-# include what you want
-
+# add this to the .bashrc: . $HOME/.bashrc.load
 export PATH=$PATH:$HOME/bin
 
-# add this to the .bashrc: . $HOME/.bashrc.load
+#-------------------------------------------------------------
+# Internal commands
+#-------------------------------------------------------------
 
-####
-# put any bash customizations in here
+_command_exists() {
+    type "$1" &> /dev/null ;
+}
+
+umask 022
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
+# Autocomple with sudo
+complete -cf sudo
+
+shopt -s cdspell        # Pour que bash corrige automatiquement les fautes de frappes ex: cd ~/fiml sera remplacé par cd ~/film
+shopt -s checkwinsize   # Pour que bash vérifie la taille de la fenêtre après chaque commande
+shopt -s cmdhist        # Pour que bash sauve dans l'historique les commandes qui prennent plusieurs lignes sur une seule ligne.
+shopt -s dotglob        # Pour que bash montre les fichiers qui commencent par un .
+shopt -s expand_aliases # Pour que bash montre la commande complete au lieu de l'alias
+shopt -s extglob        # Pour que bash, interprète les expressions génériques
+shopt -s histappend     # Pour que bash ajoute au lieu d'écraser dans l'histo
+shopt -s hostcomplete   # Pour que bash tente de résoudre le nom pour les ip suivis d'un @
+shopt -s nocaseglob     # Pour que bash ne soit pas sensible a la casse
+
+export GIT_PS1_SHOWDIRTYSTATE=true
+export GIT_PS1_SHOWUNTRACKEDFILES=true
+
+export HISTSIZE=10000
+export HISTFILESIZE=${HISTSIZE}
+export HISTIGNORE="ls:cd:[bf]g:exit"
+export HISTCONTROL="ignoreboth" # ignore duplicate line + line which start by a space
+
+export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+export LESS=-R # Color
+
+export COPY_EXTENDED_ATTRIBUTES_DISABLE=true
+export COPYFILE_DISABLE=true
+
+export EDITOR=`which vim`
+if [[ `which most` ]]; then export PAGER=`which most` ; fi
+
+if [ -f ~/.bash_prompt ]; then
+    . ~/.bash_prompt
+fi
+
+#-------------------------------------------------------------
+# Terminal colors
+#-------------------------------------------------------------
+if _command_exists dircolors; then
+    eval `dircolors ~/.dircolors/dircolors.256dark`
+fi
+
+export TERM=xterm-color
+export TERM=xterm-256color
+export TERM=screen-256color
