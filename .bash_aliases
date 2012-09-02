@@ -15,7 +15,7 @@ alias mv="mv -i"
 alias rm="rm -i"
 
 alias mkdir="mkdir -p"
-mkcd() { mkdir "${1}" && cd "${1}" }
+mkcd() { mkdir "${1}" && cd "${1}"; }
 
 
 alias ssh="ssh -A"
@@ -24,12 +24,6 @@ alias grep='grep -n --exclude-dir ".svn" --exclude-dir ".git" --exclude tagsi --
 alias sed="sed --follow-symlinks"
 
 ## Archive
-alias untar="tar xvf"
-alias ungz="gunzip"
-alias unzip2="bzip2 -d"
-alias untargz="tar zxvf"
-alias untarbz1="tar jxvf"
-alias ungz2="bunzip2 -k"
 mktar() { tar cvf  "${1%%/}.tar"     "${1%%/}/"; }
 mktgz() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
 mktbz() { tar cvjf "${1%%/}.tar.bz2" "${1%%/}/"; }
@@ -61,5 +55,6 @@ alias aria2c="aria2c -c -x 4 --check-certificate=false --file-allocation=none"
 alias top="top -i 1 -o cpu"
 alias mysql="mysql --sigint-ignore"
 alias whatsmyip="curl -s checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//'"
+wdl(){ wget -r -l5 -k -E ${1} && cd $_;}
 alias serve_this="python -m SimpleHTTPServer 8080" # Serveur python sur le port 8080
 alias reload_bash="source ~/.bashrc" # recharger le ~/.bashrc

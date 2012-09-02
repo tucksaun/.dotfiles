@@ -15,11 +15,23 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+#-------------------------------------------------------------
+# Autocomplete
+#-------------------------------------------------------------
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 # Autocomple with sudo
 complete -cf sudo
+
+# if [ -f ~/.ssh/known_hosts ]; then
+#   SSH_COMPLETE=( $(cat ~/.ssh/known_hosts | \
+#   cut -f 1 -d ' ' | \
+#   sed -e s/,.*//g | \
+#   uniq | \
+#   egrep -v [0123456789]) )
+#   complete -o default -W "${SSH_COMPLETE[*]}" ssh
+# fi
 
 shopt -s cdspell        # Pour que bash corrige automatiquement les fautes de frappes ex: cd ~/fiml sera remplacé par cd ~/film
 shopt -s checkwinsize   # Pour que bash vérifie la taille de la fenêtre après chaque commande
