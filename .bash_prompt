@@ -19,7 +19,7 @@ if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
 fi
 
 if [[ `which git` ]]; then
-    PS1GIT="$Red\$(__git_ps1)$NoColor "
+    PS1GIT="$Yellow\$(__git_ps1)$NoColor "
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
@@ -37,7 +37,7 @@ else
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1="$GreenBold\u@\h$NoColor:$BlueBold\W$NoColor"
+    PS1="$Cyan\u@\h$NoColor:$BlueBold\W$NoColor"
 else
     PS1='\u@\h:\W'
 fi
@@ -48,7 +48,7 @@ PS1="$PS1$PS1GIT\$ "
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    PS1="$NoColor${debian_chroot:+($debian_chroot)}$PS1"
     ;;
 *)
     ;;
