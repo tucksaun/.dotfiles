@@ -1,10 +1,25 @@
 #-------------------------------------------------------------
 # Customize prompt
 #-------------------------------------------------------------
+# 0 : normal, 1 : bold, 4 underline, nothing : background
+NoColor="\[\e[0m\]"
+Black="\[\e[00;30m\]"
+Red="\[\e[00;31m\]"
+Green="\[\e[00;32m\]"
+GreenBold="\[\e[01;32m\]"
+Yellow="\[\e[00;33m\]"
+Blue="\[\e[00;34m\]"
+BlueBold="\[\e[01;34m\]"
+Purple="\[\e[00;35m\]"
+Cyan="\[\e[00;36m\]"
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+if [[ `which git` ]]; then
+    PS1GIT="$Red\$(__git_ps1)$NoColor "
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
@@ -22,16 +37,18 @@ else
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$'
+    PS1="$GreenBold\u@\h$NoColor:$BlueBold\W$NoColor"
 else
-    PS1='\u@\h:\W\$'
+    PS1='\u@\h:\W'
 fi
 unset color_prompt force_color_prompt
+
+PS1="$PS1$PS1GIT\$ "
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1 "
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
     ;;
 *)
     ;;

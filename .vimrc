@@ -72,6 +72,13 @@
     set background=dark
     colorscheme solarized
 
+" GUI
+if has('gui_running')
+  set guifont=Monaco:h12
+  let g:solarized_style="dark"
+  let g:solarized_contrast="high"
+endif
+
 " ctrl shortcuts
     vnoremap <C-X> "+x
     vnoremap <C-C> "+y

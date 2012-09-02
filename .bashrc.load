@@ -1,5 +1,5 @@
 # add this to the .bashrc: . $HOME/.bashrc.load
-export PATH=$PATH:$HOME/bin
+export PATH="/usr/local/sbin:/usr/local/bin:$HOME/bin:$PATH" # These REALLY need to come first
 
 #-------------------------------------------------------------
 # Internal commands
@@ -18,20 +18,22 @@ fi
 #-------------------------------------------------------------
 # Autocomplete
 #-------------------------------------------------------------
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+if [ -f /usr/local/etc/bash_completion ]; then
+    . /usr/local/etc/bash_completion
+elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 # Autocomple with sudo
 complete -cf sudo
 
-# if [ -f ~/.ssh/known_hosts ]; then
-#   SSH_COMPLETE=( $(cat ~/.ssh/known_hosts | \
-#   cut -f 1 -d ' ' | \
-#   sed -e s/,.*//g | \
-#   uniq | \
-#   egrep -v [0123456789]) )
-#   complete -o default -W "${SSH_COMPLETE[*]}" ssh
-# fi
+if [ -f ~/.ssh/known_hosts ]; then
+  SSH_COMPLETE=( $(cat ~/.ssh/known_hosts | \
+  cut -f 1 -d ' ' | \
+  sed -e s/,.*//g | \
+  uniq | \
+  egrep -v [0123456789]) )
+  complete -o default -W "${SSH_COMPLETE[*]}" ssh
+fi
 
 shopt -s cdspell        # Pour que bash corrige automatiquement les fautes de frappes ex: cd ~/fiml sera remplacé par cd ~/film
 shopt -s checkwinsize   # Pour que bash vérifie la taille de la fenêtre après chaque commande
@@ -51,9 +53,6 @@ export HISTFILESIZE=${HISTSIZE}
 export HISTIGNORE="ls:cd:[bf]g:exit"
 export HISTCONTROL="ignoreboth" # ignore duplicate line + line which start by a space
 
-export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
-export LESS=-R # Color
-
 export COPY_EXTENDED_ATTRIBUTES_DISABLE=true
 export COPYFILE_DISABLE=true
 
@@ -67,10 +66,26 @@ fi
 #-------------------------------------------------------------
 # Terminal colors
 #-------------------------------------------------------------
-if _command_exists dircolors; then
-    eval `dircolors ~/.dircolors/dircolors.256dark`
-fi
+export CLICOLOR=1
+
+export LESS=-R
+
+export GREP_OPTIONS='--color=auto'
+export GREP_COLOR='1;33'
+
+export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+export LSCOLORS=ExFxCxDxBxegedabagacad
+export LS_COLORS='di=34;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'
 
 export TERM=xterm-color
 export TERM=xterm-256color
 export TERM=screen-256color
+
+if _command_exists dircolors; then
+    eval `dircolors ~/.dircolors/dircolors.256dark`
+fi
+
+# Run local config
+if [ -f ~/.bashrc.local ]; then
+	. ~/.bashrc.local
+fi

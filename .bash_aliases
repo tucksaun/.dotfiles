@@ -1,7 +1,11 @@
 alias sudo="sudo " # Hack, for sudo an aliases
 
-#alias ls="ls --color"
-alias ls="ls -G"
+if [ $(uname) = "Linux" ]
+then
+  alias ls="ls --color=always"
+else
+    alias ls="ls -G"
+fi
 alias ll="ls -lh"
 alias lla="ll -a"
 alias l="ll"
@@ -17,6 +21,9 @@ alias rm="rm -i"
 alias mkdir="mkdir -p"
 mkcd() { mkdir "${1}" && cd "${1}"; }
 
+function manprint {
+    man -t $1 | open -f -a /Applications/Preview.app
+}
 
 alias ssh="ssh -A"
 
@@ -56,5 +63,7 @@ alias top="top -i 1 -o cpu"
 alias mysql="mysql --sigint-ignore"
 alias whatsmyip="curl -s checkip.dyndns.org|sed -e 's/.*Current IP Address: //' -e 's/<.*$//'"
 wdl(){ wget -r -l5 -k -E ${1} && cd $_;}
-alias serve_this="python -m SimpleHTTPServer 8080" # Serveur python sur le port 8080
-alias reload_bash="source ~/.bashrc" # recharger le ~/.bashrc
+alias serve_this="python -m SimpleHTTPServer 8080; opent http://localhost:8080" # Serveur python sur le port 8080
+alias screensaver="/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine &"
+alias brewup='brew update && brew upgrade && brew cleanup'
+alias reload_bash="source ~/.profile" # recharger le ~/.bashrc
