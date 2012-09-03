@@ -6,8 +6,8 @@
     user            = tucksaun
 
 [core]
-    autocrlf = input
-    excludesfile = ~/.gitignore
+    autocrlf        = input
+    excludesfile    = ~/.gitglobalexclude
 
 [branch]
     autosetupmerge  = true
