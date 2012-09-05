@@ -45,9 +45,6 @@ shopt -s histappend     # Pour que bash ajoute au lieu d'écraser dans l'histo
 shopt -s hostcomplete   # Pour que bash tente de résoudre le nom pour les ip suivis d'un @
 shopt -s nocaseglob     # Pour que bash ne soit pas sensible a la casse
 
-export GIT_PS1_SHOWDIRTYSTATE=true
-export GIT_PS1_SHOWUNTRACKEDFILES=true
-
 export HISTSIZE=10000
 export HISTFILESIZE=${HISTSIZE}
 export HISTIGNORE="ls:cd:[bf]g:exit"
