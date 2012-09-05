@@ -3,3 +3,6 @@ CHANGELOG.md skip
 t skip
 .travis.yml skip
 .gitmodules skip
+osx	skip
+setup.sh exec
+setup.sh skip
