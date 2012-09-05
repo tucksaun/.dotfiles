@@ -33,7 +33,9 @@
 
 " EDITING
     set expandtab                   " We do not want tabs, do we?
-    set softtabstop=4               " hit <tab> insert 4 spaces
+    set softtabstop=2               " hit <tab> insert 4 spaces
+    set shiftwidth=2
+    set tabstop=2
     set ff=unix                     " Unix EOL
     set fileformats=unix            " always show ^M for DOS CR
     set fileencoding=UTF-8          " Speak UTF-8
@@ -42,9 +44,7 @@
     set listchars=trail:¤,tab:>-    " only show ther chars
     set nowrap                      " No, I don't want wordwrap
     set shiftround                  " when at 3 spaces, and I hit > ... go to 4, not 5
-    set shiftwidth=4
     set smartcase                   " but not where there are different cases
-    set tabstop=4
     set cindent                     " C style indentation
     set smarttab
     set smartindent                 " manage indentation inside braces
@@ -63,6 +63,12 @@
     inoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
     inoremap <expr> <M-,> pumvisible() ? '<C-n>' : '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
+" ================ Folds ============================
+
+    set foldmethod=indent           "fold based on indent
+    set foldnestmax=3               "deepest fold is 3 levels
+    set nofoldenable                "dont fold by default
+
 " plug-ins
     call pathogen#infect()      " pathogen plugin
     imap <buffer> <F5> <C-O>:call PhpInsertUse()<CR>
@@ -74,7 +80,7 @@
 
 " GUI
 if has('gui_running')
-  set guifont=Monaco:h12
+  set guifont=Monaco:h11
   let g:solarized_style="dark"
   let g:solarized_contrast="high"
 endif
