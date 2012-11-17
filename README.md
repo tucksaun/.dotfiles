@@ -2,8 +2,8 @@
 
 ## Overview
 
-This repo is my dotfiles. 
-It alsoo contains an utility created by justone to help
+This repo is my dotfiles.
+It also contains an utility created by justone to help
 with managing and updating your dotfiles like I manage mine.
 
 ## Using this repo
