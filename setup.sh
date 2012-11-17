@@ -19,10 +19,10 @@ then
 	SETUP_DIR="$BASE_DIR/linux"
 fi
 
-for file in $(ls $SETUP_DIR)
+for file in $(ls $SETUP_DIR/*.sh)
 do
 	echo "> execute $file"
-	source $SETUP_DIR/$file
+	source $file
 done
 
 echo "settings updated. Note that some of these changes require a logout/restart to take effect."

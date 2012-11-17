@@ -35,5 +35,12 @@ brew install git
 brew install gnu-sed
 brew install grep
 
+for file in $(ls $BASE_DIR/brew_recipes/*.sh)
+do
+    echo "> execute $file"
+    source $file
+done
+exit;
+
 # Remove outdated versions from the cellar
 brew cleanup
