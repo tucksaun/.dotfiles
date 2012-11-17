@@ -2,8 +2,8 @@
 
 if [[ ! `which brew` ]]
 then
-	echo "Brew is not installed, please install it first"
-	exit
+    echo "Brew is not installed, installing it first"
+    ruby <(curl -fsSkL raw.github.com/mxcl/homebrew/go)
 fi
 
 # Make sure we’re using the latest Homebrew

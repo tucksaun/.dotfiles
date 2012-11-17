@@ -1,5 +1,8 @@
 # add this to the .bashrc: . $HOME/.bashrc.load
-export PATH="/usr/local/sbin:/usr/local/bin:$HOME/bin:$PATH" # These REALLY need to come first
+PHP="php54"
+export PATH="/usr/local/sbin:/usr/local/bin:$HOME/bin:$(brew --prefix josegonzalez/php/$PHP)/bin:$PATH" # These REALLY need to come first
+export LC_CTYPE=fr_FR.UTF-8
+export LC_ALL=fr_FR.UTF-8
 
 #-------------------------------------------------------------
 # Internal commands
