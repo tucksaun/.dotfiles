@@ -16,10 +16,18 @@ brew update
 brew install dnsmasq
 if [ ! -f "/usr/local/etc/dnsmasq.conf" ]
 then
-    cp /usr/local/Cellar/dnsmasq/*/dnsmasq.conf.example /usr/local/etc/dnsmasq.conf
     echo "address=/.local/127.0.0.1
-address=/.dev/127.0.0.1
-address=/.tucknet/127.0.0.1" >> /usr/local/etc/dnsmasq.conf
+address=/.dev/127.0.0.1" > /usr/local/etc/dnsmasq.conf
+
+    sudo mkdir /etc/resolver
+    sudo chmod 777 /etc/resolver
+    # be carefull, .local is not available if Bonjour is activated !
+    echo "nameserver 127.0.0.1" > /etc/resolver/local
+    echo "nameserver 127.0.0.1" > /etc/resolver/dev
+    # used for offline mode, see https://github.com/37signals/pow/issues/104#issuecomment-7057102
+    echo "nameserver 127.0.0.1
+domain ." > /etc/resolver/root
+    sudo chmod 755 /etc/resolver
 fi
 if [ ! -f "/Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist" ]
 then
@@ -188,7 +196,6 @@ SetEnv HOME /Users/$(whoami)
 </VirtualHost>
 
 <VirtualHost *>
-    ServerAlias *.local
     ServerAlias *.dev
     # get the server name from the Host: header
     # include the server name (minus the tld) in the filenames used to satisfy requests
