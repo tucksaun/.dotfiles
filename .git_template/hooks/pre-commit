@@ -1,0 +1,13 @@
+#!/bin/sh
+
+PROJECTROOT=`echo $(cd ${0%/*}/../../ && pwd -P)`/
+
+if [ -f ${PROJECTROOT}"composer.json" ]; then
+    composerOutput=$(composer.phar status)
+    composerStatus=$(echo $?)
+    if [ "1" == "$composerStatus" ]; then
+        echo "$composerOutput"
+        echo "You can bypass this verification by using git commit --no-verify"
+        exit 1
+    fi
+fi
