@@ -30,9 +30,9 @@ brew install homebrew/dupes/grep
 
 # Install everything else
 brew install ack
+brew install gnu-sed --default-names
 brew install aria2
 brew install git
-brew install gnu-sed
 brew install grep
 
 for file in $(ls $BASE_DIR/brew_recipes/*.sh)
