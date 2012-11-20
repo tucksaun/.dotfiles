@@ -31,7 +31,7 @@ domain ." > /etc/resolver/root
 fi
 if [ ! -f "/Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist" ]
 then
-    cp /usr/local/Cellar/dnsmasq/*/homebrew.mxcl.dnsmasq.plist /Library/LaunchDaemons
+    sudo cp /usr/local/Cellar/dnsmasq/*/homebrew.mxcl.dnsmasq.plist /Library/LaunchDaemons
     sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
     sudo launchctl stop homebrew.mxcl.dnsmasq
     sudo launchctl start homebrew.mxcl.dnsmasq
@@ -57,7 +57,7 @@ PHP_OPTIONS="--with-gmp --with-mysql --with-pgsql --with-homebrew-openssl --with
 PHP_OPTIONS="--with-gmp --with-mysql --with-pgsql --with-homebrew-openssl --with-intl"
 brew install $PHP $PHP_OPTIONS
 
-PHP_PREFIX = $(brew --prefix josegonzalez/php/$PHP)
+PHP_PREFIX=$(brew --prefix josegonzalez/php/$PHP)
 
 # 'Fix' the default PEAR permissions and config
 chmod -R ug+w $PHP_PREFIX/lib/php
@@ -112,7 +112,7 @@ then
 " > /usr/local/share/phpmyadmin/config.inc.php
 fi
 
-if [ ! -f /usr/local/etc/php/5.3/conf.d/customisations.ini ]
+if [ ! -f /usr/local/etc/php/$PHP_VERSION/conf.d/customisations.ini ]
 then
     echo "; Original - display_errors = Off
 display_errors = on
@@ -120,7 +120,7 @@ display_errors = on
 display_startup_errors = on
 date.timezone = Europe/Paris
 detect_unicode = off
-" > /usr/local/etc/php/5.3/conf.d/customisations.ini
+" > /usr/local/etc/php/$PHP_VERSION/conf.d/customisations.ini
 fi
 
 # Configure native apache
