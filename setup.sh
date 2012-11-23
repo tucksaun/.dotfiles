@@ -1,5 +1,11 @@
 #!/usr/bin/env sh
 
+read -p "Would you like to launch ENV setup? " -n 1
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+    exit 0
+fi
 
 # Ask for the administrator password upfront
 sudo -v
