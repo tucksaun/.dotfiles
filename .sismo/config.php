@@ -30,4 +30,5 @@ if ( (time() - @filemtime(CACHE_FILE)) > CACHE_LIFE || $app['debug']) {
 $mailNotifier = new Sismo\Notifier\MailNotifier('tucksaun@gmail.com', '%status%', '%status%');
 $notifier = new Sismo\Contrib\CrossFingerNotifier(array($mailNotifier));
 
+require __DIR__.'/LocalProject.php';
 return require CACHE_FILE;

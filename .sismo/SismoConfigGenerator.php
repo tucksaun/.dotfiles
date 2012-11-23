@@ -3,7 +3,7 @@
 class SismoConfigGenerator
 {
     const TEMPLATE = <<<EOF
-%array_key% => (new Sismo\Project(%name%))
+%array_key% => (new LocalProject(%name%))
     ->setRepository(%path%)
     ->setSlug(%slug%)
     ->setCommand(%command%)
