@@ -60,9 +60,9 @@ return \SplFixedArray::fromArray(array(
 
     protected function generateProjectConfig(\SplFileInfo $directory, $index = 0)
     {
-        $values = $this->getProjectValues($directory, $index);
+        $values = array_map(array($this, 'escape'), $this->getProjectValues($directory, $index));
 
-        return str_replace(array_keys($values), array_map(array($this, 'escape'), array_values($values)), self::TEMPLATE);
+        return strtr(self::TEMPLATE, $values);
     }
 
     protected function getProjectCommand($path)
