@@ -16,6 +16,7 @@ EOF
         'vendors'   => array(
             'deps'          => 'php bin/vendors install',
             'composer.json' => 'composer install --dev',
+            'config.m4'     => 'phpize && ./configure',
         ),
         'tests'     => array(
             'Makefile'           => 'make test',
