@@ -2,5 +2,6 @@ README.md skip
 .gitmodules skip
 brew_recipes skip
 osx	skip
+.sismo recurse
 setup.sh exec
 setup.sh skip
