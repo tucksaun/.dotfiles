@@ -13,6 +13,9 @@ EOF
     ;
 
     static $poolCommands = array(
+        'config'    =>array(
+            'app/config/parameters.yml.dist' => 'cp app/config/parameters.yml.dist app/config/parameters.yml',
+        ),
         'vendors'   => array(
             'deps'          => 'php bin/vendors install',
             'composer.json' => 'composer install --dev',
