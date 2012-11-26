@@ -34,6 +34,7 @@ brew install gnu-sed --default-names
 brew install aria2
 brew install git
 brew install grep
+brew install tree
 
 for file in $(ls $BASE_DIR/brew_recipes/*.sh)
 do
