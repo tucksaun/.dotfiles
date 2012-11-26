@@ -12,6 +12,7 @@ if ( (time() - @filemtime(CACHE_FILE)) > CACHE_LIFE || $app['debug']) {
     $finder = Symfony\Component\Finder\Finder::create()
         ->directories()
         ->depth('< 1')
+        ->in(getenv('HOME').'/Work/tucknet')
         ->in(getenv('HOME').'/Work')
         ->notName('*.bak')
         ->filter(function($directory){
