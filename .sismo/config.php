@@ -15,7 +15,7 @@ if ( (time() - @filemtime(CACHE_FILE)) > CACHE_LIFE || $app['debug']) {
         ->in(getenv('HOME').'/Work')
         ->notName('*.bak')
         ->filter(function($directory){
-            return is_dir($directory->getPathname().'/.git');
+            return !$directory->isLink() && is_dir($directory->getPathname().'/.git');
         })
     ;
 
