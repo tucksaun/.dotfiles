@@ -51,9 +51,9 @@ EOF
 
         return sprintf('<?php
 
-return \SplFixedArray::fromArray(array(
+return array(
 %s
-));
+);
 ', implode("\n", $configs));
     }
 

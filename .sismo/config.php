@@ -2,6 +2,8 @@
 
 // $app['debug'] = true;
 
+use Sismo\Contrib\GrowlNotifier;
+
 define('CACHE_FILE', $app['data.path'].'/cache/config.cache.php');
 define('CACHE_LIFE', 7200); // 2h
 
@@ -28,8 +30,18 @@ if ( (time() - @filemtime(CACHE_FILE)) > CACHE_LIFE || $app['debug']) {
     file_put_contents(CACHE_FILE, $generator->dump());
 }
 
-$mailNotifier = new Sismo\Notifier\MailNotifier('tucksaun@gmail.com', '%status%', '%status%');
-$notifier = new Sismo\Contrib\CrossFingerNotifier(array($mailNotifier));
+$notifier = new GrowlNotifier('sismo', array(
+    GrowlNotifier::NOTIFY_SUCCESS => array(
+        'icon'   => 'http://devops.rackspace.com/wp-content/uploads/2012/09/jenkins.png',
+        'sticky' => false,
+    ),
+    GrowlNotifier::NOTIFY_FAILURE => array(
+        'icon'  => 'http://devops.rackspace.com/wp-content/uploads/2012/09/jenkins.png',
+    )
+), '', array(
+    'protocol' => 'gntp',
+    'AppIcon'  => 'http://devops.rackspace.com/wp-content/uploads/2012/09/jenkins.png',
+));
 
 require __DIR__.'/LocalProject.php';
 return require CACHE_FILE;
