@@ -30,7 +30,7 @@
 
 [alias]
     d               = diff
-    ds              = diff --cached
+    ds              = diff --staged
     st              = status
     ci              = commit
     co              = checkout
