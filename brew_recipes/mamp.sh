@@ -97,6 +97,8 @@ pear config-set data_dir $PEAR_DIR/data
 
 #install Net_Growl for Sismo\Contrib\GrowlNotifier
 pear install Net_Growl
+#Instal phpunit
+pear install pear.phpunit.de/PHPUnit
 
 #Install additional php extensions (Optional. Follow configuration instructions after each install.)
 brew install $PHP-apc
@@ -108,9 +110,6 @@ brew install graphviz
 
 #Install composer for Symfony and other PHP package management
 curl -s https://getcomposer.org/installer | sudo php -- --install-dir=/usr/bin
-
-#Instal phpunit
-wget http://pear.phpunit.de/get/phpunit.phar -O ~/bin/phpunit.phar && chmod 755 ~/bin/phpunit.phar
 
 brew install phpmyadmin
 if [ ! -f /usr/local/share/phpmyadmin/config.inc.php ]
