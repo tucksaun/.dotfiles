@@ -53,17 +53,50 @@ brew tap homebrew/dupes
 brew tap josegonzalez/homebrew-php
 
 # Install php with apache, intl (for Symfony 2), and suhosin patch
-PHP_OPTIONS="--with-gmp --with-mysql --with-pgsql --with-homebrew-openssl --with-intl --with-suhosin"
-PHP_OPTIONS="--with-gmp --with-mysql --with-pgsql --with-homebrew-openssl --with-intl"
+PHP_OPTIONS="--with-gmp --with-mysql --with-pgsql --with-homebrew-openssl --with-intl --with-debug --with-suhosin"
+PHP_OPTIONS="--with-gmp --with-mysql --with-pgsql --with-homebrew-openssl --with-intl --with-debug"
 brew install $PHP $PHP_OPTIONS
 
 PHP_PREFIX=$(brew --prefix josegonzalez/php/$PHP)
+OLD_PEAR_DIR=$(pear config-get php_dir)
+PEAR_DIR=/usr/local/lib/php/$PHP_VERSION/lib
+PHP_EXT_DIR=/usr/local/lib/php/$PHP_VERSION/lib/extensions
+
+rm -Rf $(php-config --extension-dir)
+if [ ! -d $PEAR_DIR ]
+then
+    cp -Rp $OLD_PEAR_DIR/* $PEAR_DIR/
+    mkdir -p $PHP_EXT_DIR
+fi
+ln -nsf $PHP_EXT_DIR $(php-config --extension-dir)
+
+if [ ! -f /usr/local/etc/php/$PHP_VERSION/conf.d/customisations.ini ]
+then
+    echo "; Original - display_errors = Off
+display_errors = on
+; Original - display_startup_errors = Off
+display_startup_errors = on
+date.timezone = Europe/Paris
+detect_unicode = off
+memory_limit=256M
+suhosin.executor.include.whitelist = phar
+extension_dir = $PHP_EXT_DIR
+include_path=\".:$PEAR_DIR\"
+" > /usr/local/etc/php/$PHP_VERSION/conf.d/customisations.ini
+fi
 
 # 'Fix' the default PEAR permissions and config
-chmod -R ug+w $PHP_PREFIX/lib/php
+chmod -R ug+w $PEAR_DIR
+pear config-set auto_discover 1
 pear config-set php_ini /usr/local/etc/php/$PHP_VERSION/php.ini
+pear config-set ext_dir $PHP_EXT_DIR
+pear config-set php_dir $PEAR_DIR
+pear config-set doc_dir $PEAR_DIR/doc
+pear config-set cfg_dir $PEAR_DIR/cfg
+pear config-set data_dir $PEAR_DIR/data
 
-#PATH="$(brew --prefix josegonzalez/php/$PHP)/bin:$PATH"
+#install Net_Growl for Sismo\Contrib\GrowlNotifier
+pear install Net_Growl
 
 #Install additional php extensions (Optional. Follow configuration instructions after each install.)
 brew install $PHP-apc
@@ -72,8 +105,12 @@ brew install $PHP-xdebug
 brew install $PHP-xhprof
 brew install $PHP-twig
 brew install graphviz
+
 #Install composer for Symfony and other PHP package management
 curl -s https://getcomposer.org/installer | sudo php -- --install-dir=/usr/bin
+
+#Instal phpunit
+wget http://pear.phpunit.de/get/phpunit.phar -O ~/bin/phpunit.phar && chmod 755 ~/bin/phpunit.phar
 
 brew install phpmyadmin
 if [ ! -f /usr/local/share/phpmyadmin/config.inc.php ]
@@ -110,17 +147,6 @@ then
 \$cfg['Servers'][\$i]['password'] = '';
 
 " > /usr/local/share/phpmyadmin/config.inc.php
-fi
-
-if [ ! -f /usr/local/etc/php/$PHP_VERSION/conf.d/customisations.ini ]
-then
-    echo "; Original - display_errors = Off
-display_errors = on
-; Original - display_startup_errors = Off
-display_startup_errors = on
-date.timezone = Europe/Paris
-detect_unicode = off
-" > /usr/local/etc/php/$PHP_VERSION/conf.d/customisations.ini
 fi
 
 # Configure native apache
