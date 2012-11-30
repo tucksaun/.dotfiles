@@ -2,7 +2,7 @@ alias sudo="sudo " # Hack, for sudo an aliases
 
 if [ $(uname) = "Linux" ]
 then
-  alias ls="ls --color=always"
+    alias ls="ls --color=always"
 else
     alias ls="ls -G"
 fi
