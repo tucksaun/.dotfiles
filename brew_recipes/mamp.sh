@@ -181,12 +181,13 @@ SetEnv HOME /Users/$(whoami)
 </VirtualHost>
 
 <VirtualHost *>
-    ServerAlias *.tucknet.dev
-    ServerAlias *.tucksaun.net
+    # Virtual host for domain like foo.domain.dev
+    ServerAlias *.*.*
     # get the server name from the Host: header
     # include the server name (minus the tld) in the filenames used to satisfy requests
-    VirtualDocumentRoot /Users/$(whoami)/Work/tucknet/%-3+
-    <Directory \"/Users/$(whoami)/Work/tucknet/*/\">
+    VirtualDocumentRoot /Users/$(whoami)/Work/%-2/%-3+
+
+    <Directory \"/Users/$(whoami)/Work/*/*/\">
         Options FollowSymLinks Indexes
         AllowOverride All
         Order deny,allow
@@ -202,7 +203,7 @@ SetEnv HOME /Users/$(whoami)
         RewriteRule ^(.*)$ /web%1 [NS]
     </Directory>
 
-    <Directory \"/Users/$(whoami)/Work/tucknet/*/web/\">
+    <Directory \"/Users/$(whoami)/Work/*/*/web/\">
         Options FollowSymLinks Indexes
         AllowOverride None
         Order deny,allow
@@ -221,10 +222,12 @@ SetEnv HOME /Users/$(whoami)
 </VirtualHost>
 
 <VirtualHost *>
+    # Virtual host for domain like domain.dev
     ServerAlias *.dev
     # get the server name from the Host: header
     # include the server name (minus the tld) in the filenames used to satisfy requests
     VirtualDocumentRoot /Users/$(whoami)/Work/%-2+
+
     <Directory \"/Users/$(whoami)/Work/*/\">
         Options FollowSymLinks Indexes
         AllowOverride All
