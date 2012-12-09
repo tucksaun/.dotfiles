@@ -80,6 +80,7 @@ date.timezone = Europe/Paris
 detect_unicode = off
 memory_limit=256M
 suhosin.executor.include.whitelist = phar
+xdebug.file_link_format=\"edit://%f#%l\"
 extension_dir = $PHP_EXT_DIR
 include_path=\".:$PEAR_DIR\"
 " > /usr/local/etc/php/$PHP_VERSION/conf.d/customisations.ini
