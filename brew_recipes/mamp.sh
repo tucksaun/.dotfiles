@@ -106,6 +106,7 @@ brew install $PHP-apc
 brew install $PHP-uploadprogress
 brew install $PHP-xdebug
 brew install $PHP-xhprof
+brew install $PHP-imagick
 brew install $PHP-twig
 brew install graphviz
 
