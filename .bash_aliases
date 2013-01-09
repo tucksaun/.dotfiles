@@ -28,7 +28,7 @@ function manprint {
 alias ssh="ssh -A"
 
 alias grep='grep -n --exclude-dir ".svn" --exclude-dir ".git" --exclude tagsi --color=tty'
-alias sed="sed --follow-symlinks"
+#alias sed="sed --follow-symlinks"
 
 ## Archive
 mktar() { tar cvf  "${1%%/}.tar"     "${1%%/}/"; }
