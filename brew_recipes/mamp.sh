@@ -16,13 +16,11 @@ brew update
 brew install dnsmasq
 if [ ! -f "/usr/local/etc/dnsmasq.conf" ]
 then
-    echo "address=/.local/127.0.0.1
-address=/.dev/127.0.0.1" > /usr/local/etc/dnsmasq.conf
+    echo "address=/.dev/127.0.0.1" > /usr/local/etc/dnsmasq.conf
 
     sudo mkdir /etc/resolver
     sudo chmod 777 /etc/resolver
     # be carefull, .local is not available if Bonjour is activated !
-    echo "nameserver 127.0.0.1" > /etc/resolver/local
     echo "nameserver 127.0.0.1" > /etc/resolver/dev
     # used for offline mode, see https://github.com/37signals/pow/issues/104#issuecomment-7057102
     echo "nameserver 127.0.0.1
