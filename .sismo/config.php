@@ -27,6 +27,10 @@ if ( (time() - @filemtime(CACHE_FILE)) > CACHE_LIFE || $app['debug']) {
         $generator->addPath($directory);
     }
 
+    if (!is_dir(dirname(CACHE_FILE))) {
+        mkdir(dirname(CACHE_FILE), 0755, true);
+    }
+
     file_put_contents(CACHE_FILE, $generator->dump());
 }
 
