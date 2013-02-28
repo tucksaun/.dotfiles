@@ -51,8 +51,8 @@ brew tap homebrew/dupes
 brew tap josegonzalez/homebrew-php
 
 # Install php with apache, intl (for Symfony 2), and suhosin patch
-PHP_OPTIONS="--with-gmp --with-mysql --with-pgsql --with-homebrew-openssl --with-intl --with-debug --with-suhosin"
-PHP_OPTIONS="--with-gmp --with-mysql --with-pgsql --with-homebrew-openssl --with-intl --with-debug"
+PHP_OPTIONS="--with-gmp --with-mysql --with-pgsql --with-homebrew-openssl --with-intl --with-fpm --with-debug --with-suhosin"
+PHP_OPTIONS="--with-gmp --with-mysql --with-pgsql --with-homebrew-openssl --with-intl --with-fpm --with-debug"
 brew install $PHP $PHP_OPTIONS
 
 PHP_PREFIX=$(brew --prefix josegonzalez/php/$PHP)
@@ -148,125 +148,113 @@ then
 " > /usr/local/share/phpmyadmin/config.inc.php
 fi
 
-# Configure native apache
+# nginx
+brew install nginx
 [ ! -d ~/Work ] && mkdir ~/Work
-if [ ! -f ~/Work/httpd-vhosts.conf ]
+if [ ! -f ~/Work/nginx.conf ]
 then
-    echo "
-User $(whoami)
-Group staff
-NameVirtualHost *
-# get the server name from the Host: header
-UseCanonicalName Off
-LoadModule php5_module $PHP_PREFIX/libexec/apache2/libphp5.so
-SetEnv HOME /Users/$(whoami)
+    echo 'worker_processes  1;
 
-# For http://localhost in the OS X default location
-<VirtualHost *>
-    ServerName localhost
-    DocumentRoot /Users/$(whoami)/Work/
-    <Directory \"/Users/$(whoami)/Work\">
-        Options FollowSymLinks Indexes
-        AllowOverride All
-        Order deny,allow
-    </Directory>
+events {
+    worker_connections  1024;
+}
 
-    Alias /phpmyadmin /usr/local/share/phpmyadmin
-    <Directory /usr/local/share/phpmyadmin/>
-        Options -Indexes FollowSymLinks MultiViews
-        AllowOverride All
-        Order allow,deny
-        Allow from all
-    </Directory>
-</VirtualHost>
+http {
+    include             mime.types;
+    default_type        application/octet-stream;
+    sendfile            on;
+    keepalive_timeout   65;
 
-<VirtualHost *>
-    # Virtual host for domain like foo.domain.dev
-    ServerAlias *.*.*
-    # get the server name from the Host: header
-    # include the server name (minus the tld) in the filenames used to satisfy requests
-    VirtualDocumentRoot /Users/$(whoami)/Work/%-2/%-3+
+    server {
+        listen      80;
+        server_name localhost;
+        root        /Users/'`whoami`'/.localhost/;
+        index       index.php index.html;
+        try_files   $uri $uri/ index;
+        autoindex   on;
 
-    <Directory \"/Users/$(whoami)/Work/*/*/\">
-        Options FollowSymLinks Indexes
-        AllowOverride All
-        Order deny,allow
-        DirectoryIndex app.php index.php index.html index.htm
+        location /phpmyadmin {
+            alias /usr/local/share/phpmyadmin/;
+            try_files $uri $uri/ /index.php;
+        }
 
-        RewriteEngine On
-        #RewriteBase /
+        location ~ ^/phpmyadmin/(.+\.php)$ {
+            alias /usr/local/share/phpmyadmin/$1;
+            fastcgi_index index.php;
+            fastcgi_pass 127.0.0.1:9000;
 
-        #Symfony applications
-        RewriteCond web/app.php -F [OR]
-        RewriteCond web/index.php -F
-        RewriteCond %{REQUEST_URI}  ^(.*)$
-        RewriteRule ^(.*)$ /web%1 [NS]
-    </Directory>
+            include fastcgi_params;
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            fastcgi_param PATH_INFO $fastcgi_path_info;
+            fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_param DOCUMENT_ROOT   /usr/local/share/phpmyadmin;
+        }
 
-    <Directory \"/Users/$(whoami)/Work/*/*/web/\">
-        Options FollowSymLinks Indexes
-        AllowOverride None
-        Order deny,allow
-        DirectoryIndex app.php index.php
+        location ~ \.php {
+            fastcgi_index   index.php;
+            fastcgi_pass    127.0.0.1:9000;
 
-        RewriteEngine On
-        RewriteBase /web
+            include                 fastcgi_params;
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            fastcgi_param           PATH_INFO $fastcgi_path_info;
+            fastcgi_param           PATH_TRANSLATED $document_root$fastcgi_path_info;
+            fastcgi_param           SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        }
+    }
 
-        RewriteCond %{REQUEST_FILENAME} !-d
-        RewriteCond %{REQUEST_FILENAME} !-f
-        RewriteCond app.php -F
-        RewriteRule ^(.*)$ app.php [QSA,L,NS]
-        RewriteCond index.php -F
-        RewriteRule ^(.*)$ index.php [QSA,L,NS]
-    </Directory>
-</VirtualHost>
+    server {
+        listen 80;
 
-<VirtualHost *>
-    # Virtual host for domain like domain.dev
-    ServerAlias *.dev
-    # get the server name from the Host: header
-    # include the server name (minus the tld) in the filenames used to satisfy requests
-    VirtualDocumentRoot /Users/$(whoami)/Work/%-2+
+        server_name ~^(.+\.)+dev$ ;
 
-    <Directory \"/Users/$(whoami)/Work/*/\">
-        Options FollowSymLinks Indexes
-        AllowOverride All
-        Order deny,allow
-        DirectoryIndex app.php index.php index.html index.htm
+        #domain like domain.dev
+        if ($host ~ "^(.+).dev$") {
+            set $root /Users/'`whoami`'/Work/$1;
+        }
+        #domain like foo.domain.dev
+        if ($host ~ "^(.+)\.(.+).dev$") {
+            set $root /Users/'`whoami`'/Work/$2/$1;
+        }
 
-        RewriteEngine On
-        #RewriteBase /
+        if (-d $root/web) {
+            set $root $root/web;
+        }
 
-        #Symfony applications
-        RewriteCond web/app.php -F [OR]
-        RewriteCond web/index.php -F
-        RewriteCond %{REQUEST_URI}  ^(.*)$
-        RewriteRule ^(.*)$ /web%1 [NS]
-    </Directory>
+        root        $root;
+        index       app.php index.php index.html;
+        try_files   $uri $uri/ @rewrite;
 
-    <Directory \"/Users/$(whoami)/Work/*/web/\">
-        Options FollowSymLinks Indexes
-        AllowOverride None
-        Order deny,allow
-        DirectoryIndex app.php index.php
+        location @rewrite {
+            if (-f $root/app.php) {
+                rewrite ^/(.*)$ /app.php/$1;
+            }
+            if (-f $root/index.php) {
+                rewrite ^/(.*)$ /index.php/$1;
+            }
+        }
 
-        RewriteEngine On
-        RewriteBase /web
+        location ~ \.php {
+            fastcgi_index   index.php;
+            fastcgi_pass    127.0.0.1:9000;
 
-        RewriteCond %{REQUEST_FILENAME} !-d
-        RewriteCond %{REQUEST_FILENAME} !-f
-        RewriteCond app.php -F
-        RewriteRule ^(.*)$ app.php [QSA,L,NS]
-        RewriteCond index.php -F
-        RewriteRule ^(.*)$ index.php [QSA,L,NS]
-    </Directory>
-</VirtualHost>
-" > ~/Work/httpd-vhosts.conf
-    sudo ln -nsf ~/Work/httpd-vhosts.conf /etc/apache2/other/
+            include                 fastcgi_params;
+            fastcgi_param           SERVER_NAME $host;
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            fastcgi_param           PATH_INFO $fastcgi_path_info;
+            fastcgi_param           PATH_TRANSLATED $document_root$fastcgi_path_info;
+            fastcgi_param           SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        }
+    }
+}
+' > ~/Work/nginx.conf
+    sudo ln -nsf ~/Work/nginx.conf /usr/local/etc/nginx/
 fi
 
-# Restart Apache
-sudo apachectl -k restart
+cd ~/.localhost && composer.phar install
+
+# start Nginx
+sudo nginx
 
 # Remove outdated versions from the cellar
 brew cleanup
