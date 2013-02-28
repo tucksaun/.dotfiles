@@ -9,18 +9,35 @@ $finder
     ->directories()
     ->ignoreVCS(true)
     ->ignoreDotFiles(true)
-    ->depth('==1')
+    ->depth('<=1')
 ;
 
 $dirs = array();
+$blacklist = array('.bak', 'integration');
 foreach ($finder as $dir) {
+    foreach ($blacklist as $exclude) {
+        if (strpos($dir, $exclude)) {
+            continue 2;
+        }
+    }
+
     if (file_exists($dir.'/web')) {
-        list($dir, $project) = explode('/', $dir->getRelativePathname());
+        @list($dir, $project) = explode('/', $dir->getRelativePathname());
         if (!isset($dirs[$dir])) {
             $dirs[$dir] = array();
         }
 
-        $dirs[$dir][$project] = sprintf('http://%s.%s.dev', $project, $dir);
+        if (isset($dirs[$dir][''])) {
+            continue;
+        }
+
+        if(isset($project)) {
+            // project part of a subset
+            $dirs[$dir][$project] = sprintf('http://%s.%s.dev', $project, $dir);
+        } else {
+            $dirs[$dir][''] = sprintf('http://%s.dev', $dir);
+        }
+
     }
 }
 
@@ -52,6 +69,7 @@ $utils = array(
         <ul>
             <?php foreach ($dirs as $dirName => $projects) : ?>
                 <li>
+                    <?php if (count($projects) > 1): ?>
                     <h3>
                         <?php echo ucfirst(strtolower($dirName)) ?>
                     </h3>
@@ -64,6 +82,16 @@ $utils = array(
                             </li>
                         <?php endforeach ?>
                     </ul>
+                    <?php else: ?>
+                    <a href="<?php echo reset($projects) ?>">
+                        <?php
+                            echo    ($projectName = key($projects)) .
+                                    ('' != $projectName ? ' - ' : '') .
+                                    ucfirst(strtolower($dirName))
+                            ;
+                        ?>
+                    </a>
+                    <?php endif; ?>
                 </li>
             <?php endforeach; ?>
         </ul>
