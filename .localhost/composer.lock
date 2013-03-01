@@ -1,29 +1,29 @@
 {
-    "hash": "8939aee2a4774cfb07e581156f53f3c7",
+    "hash": "6282dbd785e23e77957b0a749672b75a",
     "packages": [
         {
             "name": "symfony/finder",
-            "version": "dev-master",
+            "version": "v2.2.0",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "3f500bdf0b759cd9f08c85c089622e6d587343a4"
+                "reference": "v2.2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/3f500bdf0b759cd9f08c85c089622e6d587343a4",
-                "reference": "3f500bdf0b759cd9f08c85c089622e6d587343a4",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/v2.2.0",
+                "reference": "v2.2.0",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2013-02-26 16:28:03",
+            "time": "2013-02-28 14:06:36",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.2-dev"
                 }
             },
             "autoload": {
@@ -55,6 +55,6 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "symfony/finder": 20
+        "symfony/finder": 0
     }
 }

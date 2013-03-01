@@ -1,51 +1,19 @@
 <?php
 
-require __DIR__.'/vendor/autoload.php';
+define('CACHE_FILE', __DIR__.'/cache/projects_list.cache.html');
+define('CACHE_LIFE', 3600 * 4); // 24h
+if ((time() - @filemtime(CACHE_FILE)) < CACHE_LIFE) {
+    return include CACHE_FILE;
+} else {
+    require __DIR__.'/vendor/autoload.php';
+    $projects = (new TuckSauN\ProjectList\ConfigGenerator(getenv('HOME').'/Work'))->getProjects();
 
-$finder = new Symfony\Component\Finder\Finder();
-
-$finder
-    ->in(getenv('HOME').'/Work')
-    ->directories()
-    ->ignoreVCS(true)
-    ->ignoreDotFiles(true)
-    ->depth('<=1')
-;
-
-$dirs = array();
-$blacklist = array('.bak', 'integration');
-foreach ($finder as $dir) {
-    foreach ($blacklist as $exclude) {
-        if (strpos($dir, $exclude)) {
-            continue 2;
-        }
-    }
-
-    if (file_exists($dir.'/web')) {
-        @list($dir, $project) = explode('/', $dir->getRelativePathname());
-        if (!isset($dirs[$dir])) {
-            $dirs[$dir] = array();
-        }
-
-        if (isset($dirs[$dir][''])) {
-            continue;
-        }
-
-        if(isset($project)) {
-            // project part of a subset
-            $dirs[$dir][$project] = sprintf('http://%s.%s.dev', $project, $dir);
-        } else {
-            $dirs[$dir][''] = sprintf('http://%s.dev', $dir);
-        }
-
-    }
-}
-
-$utils = array(
-    'PHPinfo' => '/phpinfo.php',
-    'APC' => '/apc.php',
-    'PMA' => '/phpmyadmin',
-)
+    $utils = array(
+        'PHPinfo' => '/phpinfo.php',
+        'APC'     => '/apc.php',
+        'PMA'     => '/phpmyadmin',
+    );
+    ob_start();
 ?>
 <html>
     <head>
@@ -67,33 +35,26 @@ $utils = array(
         </ul>
         <h2>Projects</h2>
         <ul>
-            <?php foreach ($dirs as $dirName => $projects) : ?>
+            <?php foreach ($projects as $project): ?>
                 <li>
-                    <?php if (count($projects) > 1): ?>
-                    <h3>
-                        <?php echo ucfirst(strtolower($dirName)) ?>
-                    </h3>
-                    <ul>
-                        <?php foreach ($projects as $projetName => $link): ?>
+                    <?php if ($project->hasSubProjects()): ?>
+                        <h3><?php echo $project->getName() ?></h3>
+                        <ul>
+                        <?php foreach ($project->getSubProjects() as $subProject): ?>
                             <li>
-                                <a href="<?php echo $link ?>">
-                                    <?php echo ucfirst(strtolower($projetName)) ?>
-                                </a>
+                                <a href="<?php echo $subProject->getLink() ?>"><?php echo $subProject->getName() ?></a>
                             </li>
-                        <?php endforeach ?>
-                    </ul>
+                        <?php endforeach; ?>
+                        </ul>
                     <?php else: ?>
-                    <a href="<?php echo reset($projects) ?>">
-                        <?php
-                            echo    ($projectName = key($projects)) .
-                                    ('' != $projectName ? ' - ' : '') .
-                                    ucfirst(strtolower($dirName))
-                            ;
-                        ?>
-                    </a>
+                        <a href="<?php echo $project->getLink() ?>"><?php echo $project->getName() ?></a>
                     <?php endif; ?>
                 </li>
             <?php endforeach; ?>
         </ul>
     </body>
 </html>
+<?php
+    $output = ob_get_flush();
+    file_put_contents(CACHE_FILE, $output);
+}
