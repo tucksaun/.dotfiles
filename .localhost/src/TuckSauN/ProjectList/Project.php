@@ -4,7 +4,7 @@ namespace TuckSauN\ProjectList;
 
 class Project extends AbstractProject
 {
-    protected $urlPattern = 'http://%s.dev';
+    protected $urlPattern = 'http://%s.dev%s';
 
     public function getWebRoot()
     {
@@ -32,7 +32,17 @@ class Project extends AbstractProject
 
     public function getLink()
     {
-        return sprintf($this->urlPattern, strtolower($this->directory->getRelativePathname()), '');
+        $controller = str_replace($this->getWebRoot(), '', $this->findMainController());
+
+        return sprintf($this->urlPattern, strtolower($this->directory->getRelativePathname()), $controller);
+    }
+
+    public function getFavicon()
+    {
+        if (!file_exists($this->getWebRoot().'/favicon.ico')) {
+            return '/favicon.ico';
+        }
+        return sprintf($this->urlPattern, strtolower($this->directory->getRelativePathname()), '/favicon.ico');
     }
 
     protected function findSubProjects()
@@ -45,6 +55,13 @@ class Project extends AbstractProject
         }
 
         return $subProjects;
+    }
+
+    protected function findMainController()
+    {
+        $controllers = glob($this->getWebRoot().'/*_dev.php');
+
+        return reset($controllers);
     }
 
     protected function findControllers()

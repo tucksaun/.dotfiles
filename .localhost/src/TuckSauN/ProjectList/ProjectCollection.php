@@ -23,12 +23,17 @@ class ProjectCollection extends AbstractProject
         return reset($this->subProjects)->getLink();
     }
 
+    public function getFavicon()
+    {
+        return reset($this->subProjects)->getFavicon();
+    }
+
     protected function findSubProjects()
     {
         $projects = (new ConfigGenerator($this->directory->getRealPath()))->getProjects(0);
 
         foreach ($projects as $project) {
-            $project->setUrlPattern(sprintf('http://%%s.%s.dev', $this->getSlug()));
+            $project->setUrlPattern(sprintf('http://%%s.%s.dev%%s', $this->getSlug()));
         }
 
         return $projects;
