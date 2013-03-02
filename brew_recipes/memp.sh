@@ -168,7 +168,7 @@ http {
     server {
         listen      80;
         server_name localhost;
-        root        /Users/'`whoami`'/.localhost/;
+        root        /Users/'`whoami`'/.localhost/web;
         index       index.php index.html;
         try_files   $uri $uri/ index;
         autoindex   on;
