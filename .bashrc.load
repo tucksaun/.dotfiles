@@ -1,8 +1,19 @@
 # add this to the .bashrc: . $HOME/.bashrc.load
-PHP="php54"
-export PATH="/usr/local/sbin:/usr/local/bin:$HOME/bin:$(brew --prefix josegonzalez/php/$PHP)/bin: $(brew --prefix coreutils)/libexec/gnubin:$PATH" # These REALLY need to come first
 export LC_CTYPE=fr_FR.UTF-8
 export LC_ALL=fr_FR.UTF-8
+
+#-------------------------------------------------------------
+# Brew
+#-------------------------------------------------------------
+PHP="php54"
+export PATH="$HOME/bin:$(brew --prefix josegonzalez/php/$PHP)/bin:$(brew --prefix coreutils)/libexec/gnubin:/usr/local/sbin:$PATH" # These REALLY need to come first
+
+#-------------------------------------------------------------
+# Sonar
+#-------------------------------------------------------------
+export SONAR_HOME=$HOME/Work/sonar
+export SONAR_RUNNER_HOME=$HOME/Work/sonar-runner
+export PATH="$SONAR_HOME/bin/macosx-universal-64:$SONAR_RUNNER_HOME/bin:$PATH"
 
 #-------------------------------------------------------------
 # Internal commands
