@@ -42,8 +42,11 @@
         <div class="panel">
           <p>
             <a href="#" class="small button success">Nginx</a>
-            <a href="#" class="small button alert">MySQL</a>
             <a href="#" class="small button">PHP FPM</a>
+            <a href="#" class="small button alert">MySQL</a>
+            <a href="#" class="small button alert">PostgreSQL</a>
+            <a href="#" class="small button alert">Sonar</a>
+            <a href="#" class="small button alert">Hudson</a>
           </p>
         </div>
       </div>

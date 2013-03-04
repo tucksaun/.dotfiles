@@ -1,25 +1,33 @@
 <?php
 
+define('WEB_DIR', __DIR__);
 define('ROOT_DIR', dirname(__DIR__));
 define('CACHE_LIFE', 3600 * 4); // 24h
 define('CACHE_PATH', ROOT_DIR.'/cache');
 define('CACHE_FILE', sprintf('%s/%s.html', CACHE_PATH, isset($_GET['tool']) ? $_GET['tool'] : 'list'));
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+  define('DISABLE_CACHE', true);
+}
+// define('DISABLE_CACHE', true);
 
-if ((time() - @filemtime(CACHE_FILE)) < CACHE_LIFE) {
+if (!defined('DISABLE_CACHE') && (time() - @filemtime(CACHE_FILE)) < CACHE_LIFE) {
   $response = file_get_contents(CACHE_FILE);
 } else {
   $tools = array(
     'phpinfo' => array(
-      'label' => 'PHPInfo',
-      'url'   => '/phpinfo.php',
+      'iframe' => false,
+      'label'  => 'PHPInfo',
+      'url'    => '/phpinfo.php',
     ),
     'apc'     => array(
-      'label' => 'APC',
-      'url'   => '/apc.php',
+      'iframe' => false,
+      'label'  => 'APC',
+      'url'    => '/apc.php',
     ),
     'pma'     => array(
-      'label' => 'PHPMyAdmin',
-      'url'   => '/phpmyadmin',
+      'iframe' => true,
+      'label'  => 'PHPMyAdmin',
+      'url'    => '/phpmyadmin',
     ),
   );
 
@@ -33,10 +41,14 @@ if ((time() - @filemtime(CACHE_FILE)) < CACHE_LIFE) {
     $tool = trim($_GET['tool']);
     if (isset($tools[$tool])) {
       $template = new TuckSauN\Template('tool');
-      $template->tool = $tools[$tool];
+      $tools[$tool]['name'] = $tool;
+      $tool = $tools[$tool];
+      $template->tool = $tool;
+      if (!$tool['iframe']) {
+        define('DISABLE_CACHE', true);
+      }
     } else {
       $template = new TuckSauN\Template('error404');
-      $template->tool = $tool;
       define('DISABLE_CACHE', true);
       header('HTTP/1.0 404 Not Found', true, 404);
     }
