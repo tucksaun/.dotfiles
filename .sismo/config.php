@@ -36,15 +36,15 @@ if ( (time() - @filemtime(CACHE_FILE)) > CACHE_LIFE || $app['debug']) {
 
 $notifier = new GrowlNotifier('sismo', array(
     GrowlNotifier::NOTIFY_SUCCESS => array(
-        'icon'   => 'http://devops.rackspace.com/wp-content/uploads/2012/09/jenkins.png',
+        'icon'   => getenv('HOME').'/.icons/jenkins-logo.png',
         'sticky' => false,
     ),
     GrowlNotifier::NOTIFY_FAILURE => array(
-        'icon'  => 'http://devops.rackspace.com/wp-content/uploads/2012/09/jenkins.png',
+        'icon'  => getenv('HOME').'/.icons/jenkins-logo.png',
     )
 ), '', array(
     'protocol' => 'gntp',
-    'AppIcon'  => 'http://devops.rackspace.com/wp-content/uploads/2012/09/jenkins.png',
+    'AppIcon'  => getenv('HOME').'/.icons/jenkins-logo.png',
 ));
 
 require __DIR__.'/LocalProject.php';

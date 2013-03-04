@@ -5,7 +5,7 @@ export LC_ALL=fr_FR.UTF-8
 #-------------------------------------------------------------
 # Brew
 #-------------------------------------------------------------
-PHP="php54"
+export PHP="php54"
 export PATH="$HOME/bin:$(brew --prefix josegonzalez/php/$PHP)/bin:$(brew --prefix coreutils)/libexec/gnubin:/usr/local/sbin:$PATH" # These REALLY need to come first
 
 #-------------------------------------------------------------

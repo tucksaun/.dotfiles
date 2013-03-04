@@ -6,4 +6,4 @@ HASH=$(git log -1 HEAD --pretty="%H")
 PROJECT_SLUG=$(basename $PROJECTROOT)
 
 #let's run sismo
-php ~/Work/Sismo/sismo --quiet build $PROJECT_SLUG $HASH &
+$(brew --prefix josegonzalez/php/$PHP)/bin/php ~/Work/Sismo/sismo --quiet build $PROJECT_SLUG $HASH &
