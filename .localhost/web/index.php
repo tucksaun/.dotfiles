@@ -29,6 +29,11 @@ if (!defined('DISABLE_CACHE') && (time() - @filemtime(CACHE_FILE)) < CACHE_LIFE)
       'label'  => 'PHPMyAdmin',
       'url'    => '/phpmyadmin',
     ),
+    'sismo'     => array(
+      'iframe' => true,
+      'label'  => 'Sismo',
+      'url'    => 'http://sismo.dev',
+    ),
   );
 
   require ROOT_DIR.'/vendor/autoload.php';
