@@ -94,7 +94,10 @@ case "$mode" in
       # Start daemons
       mysql.server start
       echo $echo_n "Starting PHP-FPM $echo_c"
-      php-fpm -D -g $php_pid_file_path >/dev/null 2>&1 & wait_for_pid created "$!" "$php_pid_file_path"; return_value=$?
+      php-fpm \
+        -d error_log=/var/log/php-fpm/error.log \
+        -d slowlog=/var/log/php-fpm/slow.log \
+        -D -g $php_pid_file_path >/dev/null 2>&1 & wait_for_pid created "$!" "$php_pid_file_path"; return_value=$?
       echo $echo_n "Starting nginx $echo_c"
       sudo nginx >/dev/null 2>&1 & wait_for_pid created "$!" "$nginx_pid_file_path"; return_value=$?
     ;;
