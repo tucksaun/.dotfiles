@@ -22,7 +22,7 @@ if [[ `which git` ]]; then
     export GIT_PS1_SHOWDIRTYSTATE=true
     export GIT_PS1_SHOWUNTRACKEDFILES=true
     export GIT_PS1_SHOWUPSTREAM="auto"
-    PS1GIT="$Yellow\$(__git_ps1)$NoColor "
+    GIT_PS1="$Yellow\$(__git_ps1)$NoColor "
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
@@ -47,14 +47,20 @@ else
     HOST_PS1="\h"
 fi
 
-if [ "$color_prompt" = yes ]; then
-    PS1="$Cyan\u@$HOST_PS1$NoColor:$BlueBold\W$NoColor"
+if [ "$USER" == "tugdual.saunier" ] || [ "$USER" == "tucksaun" ]; then
+    # The username is usual,
+    # don't show it as it's useless
+    USER_PS1=""
 else
-    PS1='\u@$HOST_PS1:\W'
+    USER_PS1="\u@"
+fi
+
+if [ "$color_prompt" = yes ]; then
+    PS1="$Cyan$USER_PS1$HOST_PS1$NoColor:$BlueBold\W$NoColor$GIT_PS1\$ "
+else
+    PS1='$USER_PS1$HOST_PS1:\W$GIT_PS1\$ '
 fi
 unset color_prompt force_color_prompt
-
-PS1="$PS1$PS1GIT\$ "
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
