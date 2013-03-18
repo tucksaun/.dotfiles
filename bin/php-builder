@@ -9,7 +9,6 @@ BASE_DIR="/usr/local/php/$VERSION-debug"
 cd $HOME/Work/php-src
 (git fetch && git co "php-$VERSION") > /dev/null
 
-# --enable-maintainer-zts \
 ./buildconf --force > /dev/null \
   && \
 ./configure --localstatedir=/usr/local/var --with-iconv-dir=/usr --enable-dba --with-ndbm=/usr --enable-exif \
@@ -25,6 +24,7 @@ cd $HOME/Work/php-src
     --with-iodbc --with-pdo-odbc=generic,/usr,iodbc \
     --enable-zend-signals \
     --enable-debug --enable-dtrace \
+    --enable-maintainer-zts \
     "--prefix=${BASE_DIR}" \
     "--sysconfdir=${BASE_DIR}/etc" \
     "--mandir=${BASE_DIR}/share/man" \
