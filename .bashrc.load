@@ -5,8 +5,17 @@ export LC_ALL=fr_FR.UTF-8
 #-------------------------------------------------------------
 # Brew
 #-------------------------------------------------------------
-export PHP="php54"
-export PATH="$HOME/bin:$(brew --prefix josegonzalez/php/$PHP)/bin:$(brew --prefix coreutils)/libexec/gnubin:/usr/local/sbin:$PATH" # These REALLY need to come first
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:/usr/local/sbin:$HOME/bin:$PATH" # These REALLY need to come first
+
+########################################################################################
+# php-version (activate default PHP version and autocompletion)
+# PHP_HOME                      => should reflect location of compiled PHP versions
+# PHPVERSION_DISABLE_COMPLETE=1 => to disable shell completion
+########################################################################################
+export PHP_DEFAULT_VERSION="5.4"
+export PHP_VERSIONS="/usr/local/php $(dirname $(realpath $(brew --prefix php53))) $(dirname $(realpath $(brew --prefix php54)))"
+[ -f $HOME/php-version/php-version.sh ] &&
+  source $HOME/php-version/php-version.sh && php-version $PHP_DEFAULT_VERSION >/dev/null
 
 #-------------------------------------------------------------
 # Sonar
