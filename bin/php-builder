@@ -1,36 +1,45 @@
 #!/bin/bash
 
-if [[ "$#" -ne 1 ]]; then
-    echo "Usage : $0 <version>"
+if [[ "$#" -lt 1 ]] || [[ "$#" -gt 2 ]]; then
+    echo "Usage : $0 <version> [<variant>]"
+    exit 1
 fi
 
 VERSION="$1"
-BASE_DIR="/usr/local/php/$VERSION-debug"
 cd $HOME/Work/php-src
-(git fetch && git co "php-$VERSION") > /dev/null
+(git fetch && git checkout --force "refs/tags/php-$VERSION") > /dev/null
+
+
+BASE_DIR="/usr/local/php/$VERSION"
+if ! [[ -z $2 ]]; then
+    BASE_DIR="$BASE_DIR-$2"
+fi
+
+CONFIGURE_OPTIONS="--localstatedir=/usr/local/var --with-iconv-dir=/usr --enable-dba --with-ndbm=/usr --enable-exif \
+--enable-soap --enable-wddx --enable-ftp --enable-sockets --enable-zip --enable-pcntl --enable-shmop \
+--enable-sysvsem --enable-sysvshm --enable-sysvmsg --enable-mbstring --enable-mbregex --enable-bcmath \
+--enable-calendar --with-zlib=/usr/local/opt/zlib --with-ldap --with-ldap-sasl=/usr --with-xmlrpc \
+--with-kerberos=/usr --with-xsl=/usr --with-gd --enable-gd-native-ttf --with-freetype-dir=/usr/local/opt/freetype \
+--with-jpeg-dir=/usr/local/opt/jpeg --with-png-dir=/usr/local/opt/libpng --with-gettext=/usr/local/opt/gettext \
+--with-snmp=/usr --with-libedit --with-mhash --with-curl --with-bz2=/usr --with-openssl=/usr/local/opt/openssl \
+--enable-fpm --with-fpm-user=_www --with-fpm-group=_www --with-gmp=/usr/local/opt/gmp \
+--with-mysql-sock=/tmp/mysql.sock --with-mysqli=mysqlnd --with-mysql=mysqlnd --with-pdo-mysql=mysqlnd \
+--with-pgsql=/usr/local/opt/postgresql --with-pdo-pgsql=/usr/local/opt/postgresql \
+--with-iodbc --with-pdo-odbc=generic,/usr,iodbc \
+--prefix=${BASE_DIR} \
+--sysconfdir=${BASE_DIR}/etc \
+--mandir=${BASE_DIR}/share/man \
+--with-config-file-path=${BASE_DIR}/etc \
+--with-config-file-scan-dir=${BASE_DIR}/etc/conf.d"
+
+if [[ "x$2" == "xdebug" ]]; then
+    CONFIGURE_OPTIONS="$CONFIGURE_OPTIONS \
+--enable-zend-signals --enable-debug --enable-dtrace --enable-maintainer-zts"
+fi
 
 ./buildconf --force > /dev/null \
   && \
-./configure --localstatedir=/usr/local/var --with-iconv-dir=/usr --enable-dba --with-ndbm=/usr --enable-exif \
-    --enable-soap --enable-wddx --enable-ftp --enable-sockets --enable-zip --enable-pcntl --enable-shmop \
-    --enable-sysvsem --enable-sysvshm --enable-sysvmsg --enable-mbstring --enable-mbregex --enable-bcmath \
-    --enable-calendar --with-zlib=/usr/local/opt/zlib --with-ldap --with-ldap-sasl=/usr --with-xmlrpc \
-    --with-kerberos=/usr --with-xsl=/usr --with-gd --enable-gd-native-ttf --with-freetype-dir=/usr/local/opt/freetype \
-    --with-jpeg-dir=/usr/local/opt/jpeg --with-png-dir=/usr/local/opt/libpng --with-gettext=/usr/local/opt/gettext \
-    --with-snmp=/usr --with-libedit --with-mhash --with-curl --with-bz2=/usr --with-openssl=/usr/local/opt/openssl \
-    --enable-fpm --with-fpm-user=_www --with-fpm-group=_www --with-gmp=/usr/local/opt/gmp \
-    --with-mysql-sock=/tmp/mysql.sock --with-mysqli=mysqlnd --with-mysql=mysqlnd --with-pdo-mysql=mysqlnd \
-    --with-pgsql=/usr/local/opt/postgresql --with-pdo-pgsql=/usr/local/opt/postgresql \
-    --with-iodbc --with-pdo-odbc=generic,/usr,iodbc \
-    --enable-zend-signals \
-    --enable-debug --enable-dtrace \
-    --enable-maintainer-zts \
-    "--prefix=${BASE_DIR}" \
-    "--sysconfdir=${BASE_DIR}/etc" \
-    "--mandir=${BASE_DIR}/share/man" \
-    "--with-config-file-path=${BASE_DIR}/etc" \
-    "--with-config-file-scan-dir=${BASE_DIR}/etc/conf.d" \
-    > /dev/null \
+./configure $CONFIGURE_OPTIONS > /dev/null \
  && \
 make clean > /dev/null \
  && \
