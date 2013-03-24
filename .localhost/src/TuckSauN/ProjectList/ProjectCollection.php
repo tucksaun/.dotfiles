@@ -30,7 +30,8 @@ class ProjectCollection extends AbstractProject
 
     protected function findSubProjects()
     {
-        $projects = (new ConfigGenerator($this->directory->getRealPath()))->getProjects(0);
+        $generator = new ConfigGenerator($this->directory->getRealPath());
+        $projects = $generator->getProjects(0);
 
         foreach ($projects as $project) {
             $project->setUrlPattern(sprintf('http://%%s.%s.dev%%s', $this->getSlug()));

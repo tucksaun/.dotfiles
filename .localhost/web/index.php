@@ -58,7 +58,8 @@ if (!defined('DISABLE_CACHE') && (time() - @filemtime(CACHE_FILE)) < CACHE_LIFE)
       header('HTTP/1.0 404 Not Found', true, 404);
     }
   } else {
-    $projects = (new TuckSauN\ProjectList\ConfigGenerator(getenv('HOME').'/Work'))->getProjects();
+    $generator = new TuckSauN\ProjectList\ConfigGenerator(getenv('HOME').'/Work');
+    $projects = $generator->getProjects();
 
     $template = new TuckSauN\Template('list');
     $template->projects = $projects;

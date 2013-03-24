@@ -41,6 +41,7 @@ class ConfigGenerator
 
     protected function findAllPossibleProjects($level = 0)
     {
+        $generator = $this;
         $finder = new Finder();
 
         $directories = $finder
@@ -49,11 +50,11 @@ class ConfigGenerator
             ->ignoreVCS(true)
             ->ignoreDotFiles(true)
             ->depth(sprintf('==%u', $level))
-            ->filter(function(\SplFileInfo $file) {
-                return $this->isDirectoryAllowed($file);
+            ->filter(function(\SplFileInfo $file) use ($generator) {
+                return $generator->isDirectoryAllowed($file);
             })
-            ->filter(function(\SplFileInfo $file) {
-                return $this->isDirectoryProject($file);
+            ->filter(function(\SplFileInfo $file) use ($generator) {
+                return $generator->isDirectoryProject($file);
             })
         ;
 
@@ -77,7 +78,7 @@ class ConfigGenerator
         }
     }
 
-    protected function isDirectoryAllowed(\SplFileInfo $directory)
+    public function isDirectoryAllowed(\SplFileInfo $directory)
     {
         foreach ($this->blacklistRules as $rule) {
             if (preg_match($rule, $directory)) {
@@ -88,7 +89,7 @@ class ConfigGenerator
         return true;
     }
 
-    protected function isDirectoryProject(\SplFileInfo $directory)
+    public function isDirectoryProject(\SplFileInfo $directory)
     {
         if (
             is_dir($directory.'/web') ||
