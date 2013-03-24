@@ -31,6 +31,7 @@ function build {
   else
     FULL_VERSION="$VERSION"
   fi
+  PEAR_DIR="${BUILD_DIR}/lib"
 
   CONFIGURE_OPTIONS="--localstatedir=/usr/local/var --with-iconv-dir=/usr --enable-dba --with-ndbm=/usr --enable-exif \
 --enable-soap --enable-wddx --enable-ftp --enable-sockets --enable-zip --enable-pcntl --enable-shmop \
@@ -40,7 +41,6 @@ function build {
 --with-jpeg-dir=/usr/local/opt/jpeg --with-png-dir=/usr/local/opt/libpng --with-gettext=/usr/local/opt/gettext \
 --with-snmp=/usr --with-libedit --with-mhash --with-curl --with-bz2=/usr --with-openssl=/usr/local/opt/openssl \
 --enable-bcmath --with-gmp=/usr/local/opt/gmp \
---with-mysql-sock=/tmp/mysql.sock --with-mysqli=mysqlnd --with-mysql=mysqlnd --with-pdo-mysql=mysqlnd \
 --with-pgsql=/usr/local/opt/postgresql --with-pdo-pgsql=/usr/local/opt/postgresql \
 --with-iodbc --with-pdo-odbc=generic,/usr,iodbc"
 
@@ -48,47 +48,61 @@ function build {
       CONFIGURE_OPTIONS="$CONFIGURE_OPTIONS --enable-zend-signals --enable-debug --enable-dtrace --enable-maintainer-zts"
   fi
 
+  vercomp $VERSION "5.3.0"
+  # < 5.3.0
+  if [[ $? == 2 ]]; then
+      export PATH="/usr/local/flex-2.5.4/bin/:$PATH"
+  else
+      CONFIGURE_OPTIONS="$CONFIGURE_OPTIONS --with-mysql-sock=/tmp/mysql.sock --with-mysqli=mysqlnd --with-mysql=mysqlnd --with-pdo-mysql=mysqlnd"
+  fi
+
   vercomp $VERSION "5.3.2"
+  # > 5.3.2
   if [[ $? == 1 ]]; then
       CONFIGURE_OPTIONS="$CONFIGURE_OPTIONS --enable-fpm --with-fpm-user=_www --with-fpm-group=_www"
   fi
 
+  # < 5.4.0
   vercomp $VERSION "5.4.0"
   if [[ $? == 2 ]]; then
       CONFIGURE_OPTIONS="$CONFIGURE_OPTIONS --enable-maintainer-mode"
       export PHP_AUTOCONF="/usr/local/autoconf-2.59/bin/autoconf"
   fi
 
-  PEAR_DIR="${BUILD_DIR}/lib/"
   CONFIGURE_OPTIONS="$CONFIGURE_OPTIONS --prefix=${BUILD_DIR} \
 --mandir=${BUILD_DIR}/share/man \
---sysconfdir=/usr/local/php/etc \
---with-config-file-path=/usr/local/php/etc/ \
+--sysconfdir=${BUILD_DIR}/etc \
+--with-config-file-path=${BUILD_DIR}/etc/ \
 --with-config-file-scan-dir=${BUILD_DIR}/etc/conf.d \
 --with-pear=${PEAR_DIR}"
 
-  # workaround for pear
-  alias pear="${BUILD_DIR}/bin/pear"
-
   mkdir -p ${BUILD_DIR}/etc/conf.d/
-  echo "include_path=\".:$PEAR_DIR\"" > ${BUILD_DIR}/etc/conf.d/pear.ini
+  touch ${BUILD_DIR}/etc/php.ini
+  ln -nsf /usr/local/php/etc/php-fpm.conf ${BUILD_DIR}/etc/
+  ln -nsf /usr/local/php/etc/customisations.ini ${BUILD_DIR}/etc/conf.d/99-customisations.ini
+  echo "include_path=\".:$PEAR_DIR\"" > ${BUILD_DIR}/etc/conf.d/99-pear.ini
 
   (./buildconf --force \
     && \
   ./configure $CONFIGURE_OPTIONS \
    && \
-  make) > /dev/null  2>&1 \
+  # make clean && make) > /dev/null  2>&1 \
+  make clean && make) \
    && \
   make install
 
-  php-version $FULL_VERSION >/dev/null 2>&1
+  if [[ ! -f ${BUILD_DIR}/bin/pear ]]; then
+    echo "PEAR is broken on PHP $VERSION, beware of that! you should install it manually!" >&2
+    exit 1
+  fi
 
   # 'Fix' the default PEAR permissions and config
   chmod -R ug+w $PEAR_DIR
-  sudo chmod -R ug+w $(pear config-get cache_dir)
-  pear config-set auto_discover 1  >/dev/null 2>&1
-  pear install pear.phpunit.de/PHPUnit
-  pear install Net_Growl
+  sudo chmod -R ug+w $(${BUILD_DIR}/bin/pear config-get cache_dir)
+  sudo chmod -R ug+w $(${BUILD_DIR}/bin/pear config-get download_dir)
+  ${BUILD_DIR}/bin/pear config-set auto_discover 1  >/dev/null 2>&1
+  ${BUILD_DIR}/bin/pear install pear.phpunit.de/PHPUnit
+  ${BUILD_DIR}/bin/pear install Net_Growl
 }
 
 
