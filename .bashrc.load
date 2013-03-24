@@ -9,13 +9,13 @@ export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:/usr/local
 
 ########################################################################################
 # php-version (activate default PHP version and autocompletion)
-# PHP_HOME                      => should reflect location of compiled PHP versions
+# PHP_VERSIONS                  => should reflect location of compiled PHP versions
 # PHPVERSION_DISABLE_COMPLETE=1 => to disable shell completion
 ########################################################################################
 export PHP_DEFAULT_VERSION="5.4"
-export PHP_VERSIONS="/usr/local/php $(dirname $(realpath $(brew --prefix php53))) $(dirname $(realpath $(brew --prefix php54)))"
-[ -f $HOME/php-version/php-version.sh ] &&
-  source $HOME/php-version/php-version.sh && php-version $PHP_DEFAULT_VERSION >/dev/null
+export PHP_VERSIONS="/usr/local/php/builds $(dirname $(realpath $(brew --prefix php53))) $(dirname $(realpath $(brew --prefix php54)))"
+[ -f $HOME/bin/php-version ] &&
+  source $HOME/bin/php-version && php-version $PHP_DEFAULT_VERSION >/dev/null
 
 #-------------------------------------------------------------
 # Sonar
