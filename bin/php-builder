@@ -40,7 +40,7 @@ function build {
 --with-kerberos=/usr --with-xsl=/usr --with-gd --enable-gd-native-ttf --with-freetype-dir=/usr/local/opt/freetype \
 --with-jpeg-dir=/usr/local/opt/jpeg --with-png-dir=/usr/local/opt/libpng --with-gettext=/usr/local/opt/gettext \
 --with-snmp=/usr --with-libedit --with-mhash --with-curl --with-bz2=/usr --with-openssl=/usr/local/opt/openssl \
---enable-bcmath --with-gmp=/usr/local/opt/gmp \
+--enable-bcmath \
 --with-pgsql=/usr/local/opt/postgresql --with-pdo-pgsql=/usr/local/opt/postgresql \
 --with-iodbc --with-pdo-odbc=generic,/usr,iodbc"
 
@@ -53,7 +53,7 @@ function build {
   if [[ $? == 2 ]]; then
       export PATH="/usr/local/flex-2.5.4/bin/:$PATH"
   else
-      CONFIGURE_OPTIONS="$CONFIGURE_OPTIONS --with-mysql-sock=/tmp/mysql.sock --with-mysqli=mysqlnd --with-mysql=mysqlnd --with-pdo-mysql=mysqlnd"
+      CONFIGURE_OPTIONS="$CONFIGURE_OPTIONS --with-mysql-sock=/tmp/mysql.sock --with-mysqli=mysqlnd --with-mysql=mysqlnd --with-pdo-mysql=mysqlnd --with-gmp=/usr/local/opt/gmp"
   fi
 
   vercomp $VERSION "5.3.2"
