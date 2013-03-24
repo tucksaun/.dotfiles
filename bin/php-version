@@ -110,6 +110,8 @@ function php-version {
 
   # add the "bin" and "sbin" paths to the front (prepend) of $PATH
   export PATH="${PHP_ROOT}/bin:${PHP_ROOT}/sbin:$PATH"
+  # workaround for pear
+  alias pear="${PHP_ROOT}/bin/pear"
 
   # find php manpath
   local _MANPATH=$(php-config --man-dir)
