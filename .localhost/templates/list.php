@@ -45,6 +45,9 @@
             <a href="#" class="small button">PHP FPM</a>
             <a href="#" class="small button alert">MySQL</a>
             <a href="#" class="small button alert">PostgreSQL</a>
+            <a href="#" class="small button alert">MongoDB</a>
+            <a href="#" class="small button alert">Redis</a>
+            <a href="#" class="small button alert">Solr</a>
             <a href="#" class="small button alert">Sonar</a>
             <a href="#" class="small button alert">Hudson</a>
           </p>

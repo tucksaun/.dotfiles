@@ -14,20 +14,30 @@ if (!defined('DISABLE_CACHE') && (time() - @filemtime(CACHE_FILE)) < CACHE_LIFE)
   $response = file_get_contents(CACHE_FILE);
 } else {
   $tools = array(
-    'phpinfo' => array(
+    'phpinfo'   => array(
       'iframe' => false,
       'label'  => 'PHPInfo',
       'url'    => '/phpinfo.php',
     ),
-    'apc'     => array(
+    'apc'       => array(
       'iframe' => false,
       'label'  => 'APC',
       'url'    => '/apc.php',
     ),
-    'pma'     => array(
+    'pma'       => array(
       'iframe' => true,
       'label'  => 'PHPMyAdmin',
       'url'    => '/phpmyadmin',
+    ),
+    'rockmongo' => array(
+      'iframe' => true,
+      'label'  => 'RockMongo',
+      'url'    => '/rockmongo',
+    ),
+    'phpRedisAdmin' => array(
+      'iframe' => true,
+      'label'  => 'phpRedisAdmin',
+      'url'    => '/redis',
     ),
     'sismo'     => array(
       'iframe' => true,
