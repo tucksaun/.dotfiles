@@ -8,6 +8,7 @@ class Template
     private $file;
     private $vars;
     private $content;
+    private $canBeDecorated;
 
     public function __construct($file)
     {
@@ -18,10 +19,15 @@ class Template
             );
         }
 
+        $this->canBeDecorated = true;
         $this->file = $file;
         $this->vars = array();
     }
 
+    public function disableDecoration()
+    {
+        $this->canBeDecorated = false;
+    }
 
     public function getFile() {
         return $this->file;
@@ -86,6 +92,10 @@ class Template
     {
         if (!$this->content) {
             $this->compile();
+        }
+
+        if (!$this->canBeDecorated) {
+            return $this->content;
         }
 
         $decorator->assign('_content', $this->content);

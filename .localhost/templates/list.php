@@ -39,20 +39,24 @@
         <div class="panel">
           <p>Some RSS feeds or computer stats here?</p>
         </div>
-        <div class="panel">
-          <p>
-            <a href="#" class="small button success">Nginx</a>
-            <a href="#" class="small button">PHP FPM</a>
-            <a href="#" class="small button alert">MySQL</a>
-            <a href="#" class="small button alert">PostgreSQL</a>
-            <a href="#" class="small button alert">MongoDB</a>
-            <a href="#" class="small button alert">Redis</a>
-            <a href="#" class="small button alert">Solr</a>
-            <a href="#" class="small button alert">Sonar</a>
-            <a href="#" class="small button alert">Hudson</a>
-          </p>
-        </div>
+        <div class="panel daemons"></div>
       </div>
     </div>
   </div>
 </div>
+<script type="text/javascript">
+  if (window.XMLHttpRequest) {
+    // code for IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp=new XMLHttpRequest();
+  } else {
+    // code for IE6, IE5
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange=function() {
+    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+      document.getElementsByClassName("daemons")[0].innerHTML=xmlhttp.responseText
+    }
+  }
+  xmlhttp.open("GET","/?tool=daemons",true);
+  xmlhttp.send();
+</script>
