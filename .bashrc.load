@@ -6,6 +6,7 @@ export LC_ALL=fr_FR.UTF-8
 # Brew
 #-------------------------------------------------------------
 export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:/usr/local/sbin:$HOME/bin:$PATH" # These REALLY need to come first
+export PGHOST="/var/pgsql_socket"
 
 ########################################################################################
 # php-version (activate default PHP version and autocompletion)
