@@ -59,7 +59,7 @@ if (!defined('DISABLE_CACHE') && (time() - @filemtime(CACHE_FILE)) < CACHE_LIFE)
     'sonar'     => array(
       'iframe' => true,
       'label'  => 'Sonar',
-      'url'    => 'http://localhost:9000/',
+      'url'    => 'http://localhost:9900/',
     ),
     'solr'     => array(
       'iframe' => true,
@@ -73,14 +73,15 @@ if (!defined('DISABLE_CACHE') && (time() - @filemtime(CACHE_FILE)) < CACHE_LIFE)
   TuckSauN\Template::$TEMPLATE_DIR = ROOT_DIR.'/templates';
 
   $getDaemons = function() {
+    $mysql = new Daemon\MySQL();
     return array(
       new Daemon\Nginx,
       new Daemon\PhpFpm,
-      new Daemon\MySQL,
+      $mysql,
       new Daemon\PostgreSQL,
       new Daemon\MongoDB,
       new Daemon\Redis,
-      new Daemon\Sonar,
+      new Daemon\Sonar($mysql),
       new Daemon\Hudson,
       new Daemon\Solr,
     );
