@@ -92,7 +92,6 @@ wait_for_pid () {
 case "$mode" in
   'start')
       # Start daemons
-      mysql.server start
       echo $echo_n "Starting PHP-FPM $echo_c"
       php-fpm \
         -d error_log=/var/log/php-fpm/error.log \
@@ -128,8 +127,6 @@ case "$mode" in
       else
         log_failure_msg "PHP-FpM server PID file could not be found!"
       fi
-
-      mysql.server stop
     ;;
 
   'restart')
@@ -144,8 +141,6 @@ case "$mode" in
     ;;
 
   'reload'|'force-reload')
-      mysql.server reload
-
       if test -s "$php_pid_file_path" ; then
         read php_pid <  "$php_pid_file_path"
         kill -USR2 $php_pid && log_success_msg "Reloading service PHP-FPM"
@@ -161,8 +156,6 @@ case "$mode" in
       fi
     ;;
   'status')
-      mysql.server status
-
       # First, check to see if pid file exists
       if test -s "$php_pid_file_path" ; then
         read php_pid < "$php_pid_file_path"
