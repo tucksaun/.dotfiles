@@ -14,7 +14,7 @@
     autosetuprebase = always
 
 [push]
-    default = tracking
+    default         = upstream
 
 [color]
     ui              = always
