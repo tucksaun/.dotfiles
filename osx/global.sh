@@ -68,7 +68,7 @@ defaults write com.apple.iTunes NSUserKeyEquivalents -dict-add "Target Search Fi
 # defaults write com.apple.dashboard devmode -bool true
 
 # Restart automatically if the computer freezes
-systemsetup -setrestartfreeze on
+sudo systemsetup -setrestartfreeze on
 
 # Fix for the ancient UTF-8 bug in QuickLook (http://mths.be/bbo)
 # Commented out, as this is known to cause problems when saving files in Adobe Illustrator CS5 :(
@@ -117,7 +117,7 @@ defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
 defaults write NSGlobalDomain AppleMetricUnits -bool true
 
 # Set the timezone; see `systemsetup -listtimezones` for other values
-systemsetup -settimezone "Europe/Paris" > /dev/null
+sudo systemsetup -settimezone "Europe/London" > /dev/null
 
 ###############################################################################
 # Screen                                                                      #
