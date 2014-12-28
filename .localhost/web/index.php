@@ -29,7 +29,7 @@ if (!defined('DISABLE_CACHE') && (time() - @filemtime(CACHE_FILE)) < CACHE_LIFE)
     'pma'       => array(
       'iframe' => true,
       'label'  => 'PHPMyAdmin',
-      'url'    => '/phpmyadmin',
+      'url'    => '/phpmyadmin/',
     ),
     'pgm' => array(
       'iframe' => true,
@@ -66,6 +66,11 @@ if (!defined('DISABLE_CACHE') && (time() - @filemtime(CACHE_FILE)) < CACHE_LIFE)
       'label'  => 'Solr',
       'url'    => 'http://localhost:8983',
     ),
+    'rabbit'   => array(
+      'iframe' => true,
+      'label'  => 'RabbitMQ',
+      'url'    => 'http://localhost:15672',
+    ),
   );
 
   require ROOT_DIR.'/vendor/autoload.php';
@@ -84,6 +89,7 @@ if (!defined('DISABLE_CACHE') && (time() - @filemtime(CACHE_FILE)) < CACHE_LIFE)
       new Daemon\Sonar($mysql),
       new Daemon\Hudson,
       new Daemon\Solr,
+      new Daemon\RabbitMQ,
     );
   };
 

@@ -7,3 +7,7 @@
 *.sw?
 .sonar
 .svn
+
+# Eclipse
+.project
+.cproject

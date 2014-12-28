@@ -25,9 +25,9 @@ EOF
             'Makefile'           => 'make test',
             'tests.sh'           => 'sh tests.sh',
             'run-tests.sh'       => 'sh run-tests.sh',
-            'app'                => 'phpunit -c app/',
             'phpunit.xml.dist'   => 'phpunit',
             'phpunit.xml'        => 'phpunit',
+            'app'                => 'phpunit -c app/',
             'lib/vendor/symfony' => 'php symfony test:all',
         ),
     );

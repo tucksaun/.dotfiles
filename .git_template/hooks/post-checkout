@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Put this file at: .git/hooks/post-checkout
+# and make it executable
+# You can install it system wide too, see http://stackoverflow.com/a/2293578/685587
+
+PREV_COMMIT=$1
+POST_COMMIT=$2
+
+NOCOLOR="\033[0m"
+REDCOLOR="\033[1;31m"
+
+if [[ -f composer.lock ]]; then
+    DIFF=`git diff --shortstat $PREV_COMMIT..$POST_COMMIT composer.lock`
+    if [[ $DIFF != "" ]]; then
+        echo -e "$REDCOLOR composer.lock has changed. You must run composer install$NOCOLOR"
+    fi
+fi
+
+# Alert if there is a new migration
+if [[ -d "app/DoctrineMigrations" ]]; then
+    DIFF=`git diff --shortstat $PREV_COMMIT..$POST_COMMIT app/DoctrineMigrations`
+    if [[ $DIFF != "" ]]; then
+        echo -e "$REDCOLOR Doctrine migrations may have changed. Run app/console doc:mig:stat to confirm$NOCOLOR"
+    fi
+fi
+
+# automatically clear Symfony2 caches on branch changes
+if [[ -d "app/cache" ]]; then
+    find app/cache -type d -depth 1 -maxdepth 1 -exec rm -r {} \;
+fi
+
+# automatically truncate Symfony2 logs on branch changes
+if [[ -d "app/logs" ]]; then
+    find app/logs -type f -name "*.log" -maxdepth 1 -exec truncate -s 0 {} \;
+fi

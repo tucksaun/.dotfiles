@@ -51,8 +51,8 @@ brew tap homebrew/dupes
 brew tap josegonzalez/homebrew-php
 
 # Install php with apache, intl (for Symfony 2), and suhosin patch
-PHP_OPTIONS="--with-gmp --with-mysql --with-pgsql --with-homebrew-openssl --with-intl --with-fpm --with-debug --with-suhosin"
-PHP_OPTIONS="--with-gmp --with-mysql --with-pgsql --with-homebrew-openssl --with-intl --with-fpm --with-debug"
+PHP_OPTIONS="--with-gmp --with-mysql --with-pgsql --with-homebrew-openssl --with-intl --with-fpm --with-suhosin"
+PHP_OPTIONS="--with-gmp --with-mysql --with-pgsql --with-homebrew-openssl --with-intl --with-fpm"
 brew install $PHP $PHP_OPTIONS
 
 PHP_PREFIX=$(brew --prefix josegonzalez/php/$PHP)
@@ -63,6 +63,7 @@ PHP_EXT_DIR=/usr/local/lib/php/$PHP_VERSION/lib/extensions
 rm -Rf $(php-config --extension-dir)
 if [ ! -d $PEAR_DIR ]
 then
+    mkdir -p $PEAR_DIR
     cp -Rp $OLD_PEAR_DIR/* $PEAR_DIR/
     mkdir -p $PHP_EXT_DIR
 fi
@@ -100,6 +101,7 @@ pear install Net_Growl
 pear install pear.phpunit.de/PHPUnit
 
 #Install additional php extensions (Optional. Follow configuration instructions after each install.)
+brew install $PHP-intl
 brew install $PHP-apc
 brew install $PHP-uploadprogress
 brew install $PHP-xdebug
@@ -206,7 +208,7 @@ http {
     server {
         listen 80;
 
-        server_name ~^(.+\.)+dev$ ;
+        server_name ~^(.+\.)+.*$ ;
 
         #domain like domain.dev
         if ($host ~ "^(.+).dev$") {
@@ -215,6 +217,10 @@ http {
         #domain like foo.domain.dev
         if ($host ~ "^(.+)\.(.+).dev$") {
             set $root /Users/'`whoami`'/Work/$2/$1;
+        }
+        #domain like foo-dev.tucksaun.net
+        if ($host ~ "^(.+)-dev\.tucksaun\.net$") {
+            set $root /Users/'`whoami`'/Work/tucknet/$1;
         }
 
         if (-d $root/web) {

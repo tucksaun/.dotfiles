@@ -1,6 +1,8 @@
 # add this to the .bashrc: . $HOME/.bashrc.load
-export LC_CTYPE=fr_FR.UTF-8
-export LC_ALL=fr_FR.UTF-8
+#export LC_CTYPE=fr_FR.UTF-8
+#export LC_ALL=fr_FR.UTF-8
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 #-------------------------------------------------------------
 # Brew
@@ -13,10 +15,30 @@ export PGHOST="/var/pgsql_socket"
 # PHP_VERSIONS                  => should reflect location of compiled PHP versions
 # PHPVERSION_DISABLE_COMPLETE=1 => to disable shell completion
 ########################################################################################
-export PHP_DEFAULT_VERSION="5.4"
-export PHP_VERSIONS="/usr/local/php/builds $(dirname $(realpath $(brew --prefix php53))) $(dirname $(realpath $(brew --prefix php54)))"
+export COMPOSER_HOME=$HOME/.composer
+export PATH=$COMPOSER_HOME/vendor/bin:$PATH
+export PHP_DEFAULT_VERSION="5.5"
+export PHP_VERSIONS="/usr/local/php/builds \
+$(dirname $(realpath $(brew --prefix php55)))"
+
 [ -f $HOME/bin/php-version ] &&
   source $HOME/bin/php-version && php-version $PHP_DEFAULT_VERSION >/dev/null
+
+########################################################################################
+# Chef
+########################################################################################
+export OPSCODE_USER=tucksaun
+
+########################################################################################
+# RVM
+########################################################################################
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+#-------------------------------------------------------------
+# GO
+#-------------------------------------------------------------
+export GOPATH=$HOME/Work/go
+export PATH=$PATH:/usr/local/Cellar/go/1.2/libexec/bin:$GOPATH/bin
 
 #-------------------------------------------------------------
 # Sonar
@@ -24,6 +46,11 @@ export PHP_VERSIONS="/usr/local/php/builds $(dirname $(realpath $(brew --prefix 
 export SONAR_HOME=$HOME/Work/sonar
 export SONAR_RUNNER_HOME=$HOME/Work/sonar-runner
 export PATH="$SONAR_HOME/bin/macosx-universal-64:$SONAR_RUNNER_HOME/bin:$PATH"
+
+#-------------------------------------------------------------
+# Raspberry PI
+#-------------------------------------------------------------
+export PATH="$HOME/Work/rpi/arm-cs-tools/bin:$PATH"
 
 #-------------------------------------------------------------
 # Internal commands

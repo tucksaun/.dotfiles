@@ -86,10 +86,10 @@ if has('gui_running')
 endif
 
 " ctrl shortcuts
-    vnoremap <C-X> "+x
-    vnoremap <C-C> "+y
-    map <C-V> "+gP
-    cmap <C-V> <C-R>+
+"    vnoremap <C-X> "+x
+"    vnoremap <C-C> "+y
+"    map <C-V> "+gP
+"    cmap <C-V> <C-R>+
 
 " Extra
     " return at last position
