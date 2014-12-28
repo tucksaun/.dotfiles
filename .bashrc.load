@@ -17,9 +17,9 @@ export PGHOST="/var/pgsql_socket"
 ########################################################################################
 export COMPOSER_HOME=$HOME/.composer
 export PATH=$COMPOSER_HOME/vendor/bin:$PATH
-export PHP_DEFAULT_VERSION="5.5"
+export PHP_DEFAULT_VERSION="5.6"
 export PHP_VERSIONS="/usr/local/php/builds \
-$(dirname $(realpath $(brew --prefix php55)))"
+$(dirname $(realpath $(brew --prefix php56)))"
 
 [ -f $HOME/bin/php-version ] &&
   source $HOME/bin/php-version && php-version $PHP_DEFAULT_VERSION >/dev/null

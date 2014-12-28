@@ -6,8 +6,8 @@ then
     exit
 fi
 
-PHP="php54"
-PHP_VERSION="5.4"
+PHP="php56"
+PHP_VERSION="5.6"
 
 # Make sure we’re using the latest Homebrew
 brew update
@@ -51,8 +51,8 @@ brew tap homebrew/dupes
 brew tap josegonzalez/homebrew-php
 
 # Install php with apache, intl (for Symfony 2), and suhosin patch
-PHP_OPTIONS="--with-gmp --with-mysql --with-pgsql --with-homebrew-openssl --with-intl --with-fpm --with-suhosin"
-PHP_OPTIONS="--with-gmp --with-mysql --with-pgsql --with-homebrew-openssl --with-intl --with-fpm"
+PHP_OPTIONS="--without-snmp --with-gmp --with-mysql --with-pgsql --with-homebrew-openssl --with-intl --with-fpm --with-suhosin"
+PHP_OPTIONS="--without-snmp --with-gmp --with-mysql --with-pgsql --with-homebrew-openssl --with-intl --with-fpm"
 brew install $PHP $PHP_OPTIONS
 
 PHP_PREFIX=$(brew --prefix josegonzalez/php/$PHP)
@@ -101,8 +101,8 @@ pear install Net_Growl
 pear install pear.phpunit.de/PHPUnit
 
 #Install additional php extensions (Optional. Follow configuration instructions after each install.)
-brew install $PHP-intl
-brew install $PHP-apc
+#brew install $PHP-intl
+#brew install $PHP-apc
 brew install $PHP-uploadprogress
 brew install $PHP-xdebug
 brew install $PHP-xhprof
