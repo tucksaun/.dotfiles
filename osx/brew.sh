@@ -22,7 +22,7 @@ brew install bash
 brew install bash-completion
 
 # Install wget with IRI support
-brew install wget --enable-iri
+brew install wget --with-iri
 
 # Install more recent versions of some OS X tools
 brew tap homebrew/dupes
@@ -30,7 +30,7 @@ brew install homebrew/dupes/grep
 
 # Install everything else
 brew install ack
-brew install gnu-sed --default-names
+brew install gnu-sed --with-default-names
 brew install aria2
 brew install git
 brew install grep
