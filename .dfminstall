@@ -1,6 +1,7 @@
 README.md skip
 .gitmodules skip
 brew_recipes skip
+iTermPreset.itermcolors skip
 osx	skip
 .sismo recurse
 setup.sh exec
