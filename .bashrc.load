@@ -8,21 +8,29 @@ export LC_ALL=en_US.UTF-8
 # Brew
 #-------------------------------------------------------------
 export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:/usr/local/sbin:$HOME/bin:$PATH" # These REALLY need to come first
-export PGHOST="/var/pgsql_socket"
+#export PGHOST="/var/pgsql_socket"
+
+#-------------------------------------------------------------
+# Boot2Docker
+#-------------------------------------------------------------
+#[ -x /usr/local/bin/boot2docker ] && $(boot2docker shellinit 2> /dev/null)
+export DOCKER_HOST=tcp://192.168.59.103:2376
+export DOCKER_CERT_PATH=/Users/tucksaun/.boot2docker/certs/boot2docker-vm
+export DOCKER_TLS_VERIFY=1
 
 ########################################################################################
 # php-version (activate default PHP version and autocompletion)
 # PHP_VERSIONS                  => should reflect location of compiled PHP versions
 # PHPVERSION_DISABLE_COMPLETE=1 => to disable shell completion
 ########################################################################################
-export COMPOSER_HOME=$HOME/.composer
-export PATH=$COMPOSER_HOME/vendor/bin:$PATH
-export PHP_DEFAULT_VERSION="5.6"
-export PHP_VERSIONS="/usr/local/php/builds \
-$(dirname $(realpath $(brew --prefix php56)))"
+#export COMPOSER_HOME=$HOME/.composer
+#export PATH=$COMPOSER_HOME/vendor/bin:$PATH
+#export PHP_DEFAULT_VERSION="5.6"
+#export PHP_VERSIONS="/usr/local/php/builds \
+#$(dirname $(realpath $(brew --prefix php56)))"
 
-[ -f $HOME/bin/php-version ] &&
-  source $HOME/bin/php-version && php-version $PHP_DEFAULT_VERSION >/dev/null
+#[ -f $HOME/bin/php-version ] &&
+#  source $HOME/bin/php-version && php-version $PHP_DEFAULT_VERSION >/dev/null
 
 ########################################################################################
 # Chef

@@ -6,34 +6,15 @@ then
     exit
 fi
 
+# Tap the wonderful homebrew-php from https://github.com/josegonzalez/homebrew-php
+brew tap homebrew/dupes
+brew tap josegonzalez/homebrew-php
+
+echo "MEMP recipe is deprecated, skipping"
+exit
+
 PHP="php56"
 PHP_VERSION="5.6"
-
-# Make sure we’re using the latest Homebrew
-brew update
-
-# Install dnsmasq for local wildcard domain.
-brew install dnsmasq
-if [ ! -f "/usr/local/etc/dnsmasq.conf" ]
-then
-    echo "address=/.dev/127.0.0.1" > /usr/local/etc/dnsmasq.conf
-
-    sudo mkdir /etc/resolver
-    sudo chmod 777 /etc/resolver
-    # be carefull, .local is not available if Bonjour is activated !
-    echo "nameserver 127.0.0.1" > /etc/resolver/dev
-    # used for offline mode, see https://github.com/37signals/pow/issues/104#issuecomment-7057102
-    echo "nameserver 127.0.0.1
-domain ." > /etc/resolver/root
-    sudo chmod 755 /etc/resolver
-fi
-if [ ! -f "/Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist" ]
-then
-    sudo cp /usr/local/Cellar/dnsmasq/*/homebrew.mxcl.dnsmasq.plist /Library/LaunchDaemons
-    sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
-    sudo launchctl stop homebrew.mxcl.dnsmasq
-    sudo launchctl start homebrew.mxcl.dnsmasq
-fi
 
 # Install exim
 brew install exim
@@ -45,10 +26,6 @@ then
     unset TMPDIR
     sudo mysql_install_db --verbose --user=`whoami` --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql --tmpdir=/tmp
 fi
-
-# Tap the wonderful homebrew-php from https://github.com/josegonzalez/homebrew-php
-brew tap homebrew/dupes
-brew tap josegonzalez/homebrew-php
 
 # Install php with apache, intl (for Symfony 2), and suhosin patch
 PHP_OPTIONS="--without-snmp --with-gmp --with-mysql --with-pgsql --with-homebrew-openssl --with-intl --with-fpm --with-suhosin"
