@@ -1,0 +1,24 @@
+.DS_Store
+*.iml
+*.ipr
+*.iws
+.idea
+*.pyc
+*.sw?
+.sonar
+.svn
+.TODO*
+TODO.*
+.php_cs
+.php_cs.cache
+.bundle
+.vscode
+docker-compose.override.yml
+
+# Eclipse
+.project
+.cproject
+
+# Sublime2
+*.sublime-project
+*.sublime-workspace

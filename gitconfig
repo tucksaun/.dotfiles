@@ -1,0 +1,88 @@
+[user]
+    name       = Tugdual Saunier
+    email      = tugdual.saunier@gmail.com
+    signingkey = D2ACF5DCE38C9C71
+
+[github]
+    user  = tucksaun
+    username = tucksaun
+
+[include]
+   path = "~/Library/Mobile Documents/com~apple~CloudDocs/Preferences/gitconfig.github"
+
+[url "ssh://git@github.com/"]
+   insteadOf = https://github.com/
+
+[core]
+    autocrlf     = input
+    excludesfile = ~/.dotfiles/gitglobalexclude
+    commitGraph  = true
+
+[branch]
+    autosetupmerge  = true
+    autosetuprebase = always
+
+[push]
+   default         = upstream
+
+[color]
+    #ui              = always
+    diff            = true
+    status          = auto
+    branch          = always
+    interactive     = always
+    pager           = true
+[color "status"]
+    untracked       = yellow
+[color "diff"]
+    meta            = yellow
+
+[alias]
+    d               = diff
+    ds              = diff --staged
+    st              = status
+    ci              = commit
+    fabpot          = commit -m '-'
+    cn              = commit --amend -C HEAD
+    co              = checkout
+    br              = branch -v -a
+    brc             = ! git branch --no-color  --merged | \\grep -v master | \\grep -v '*' | xargs git branch -d
+    lg              = log --graph --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset%s %Cgreen(%an %ar [%cn %cr])%Creset' --abbrev-commit --date=relative
+    lga             = log --graph --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset%s %Cgreen(%an %ar [%cn %cr])%Creset' --abbrev-commit --date=relative --all
+    logfull         = log --pretty=fuller --graph --stat -p
+    cat             = cat-file -p
+    unstage         = reset HEAD
+    uncommit        = reset --soft HEAD^
+    uncommithard    = reset --hard HEAD^
+    undomerge       = reset --hard ORIG_HEAD
+    oups            = commit -a --amend -C HEAD
+    tagg            = ! git fetch -t && git tag -f -a -m 'created tag : `cat VERSION`' `cat VERSION` && git push --tags
+    tagc            = ! TAG=`git describe --tags $(git rev-list --tags --max-count=1) | sed 's/v//' | awk -F . '{ printf "v%d.%d.%d", $1, $2, $3 + 1 }'` && echo $TAG > VERSION && git ci -m "Bumped to version : $TAG" VERSION && git tag -a -m "Created tag $TAG" $TAG  && git push &&  git push --tags
+    rebc            = rebase --continue
+    rebt            = rebase --abort
+    rebs            = rebase --skip
+    workprofile     = config user.email \"tugdual.saunier@blackfire.io\"
+#    cs-fix          = ! git st | \\grep -E \"modified|new\" | \\grep -E \"\\.php$\" | awk -F\" \" '{print $(NF)}' | xargs -n 1 php-cs-fixer fix
+    cs-fix          = ! git status --porcelain | /usr/bin/grep -e '^[AUM ][UM ].*\\.php$' | awk '{print $2}' | gxargs --no-run-if-empty -L 1 php -n $(which php-cs-fixer) fix && git status --porcelain | /usr/bin/grep -e '^[AUM ][UM ].*\\.go$' | awk '{print $2}' | gxargs --no-run-if-empty -L 1 go fmt
+    new             = ! git checkout origin/master -b $(echo $@ | sed 's/ /\\-/g') &&  echo $@ >/dev/null
+    latest          = for-each-ref --count=10 --sort=-committerdate refs/heads/ --format='%(refname:short)'
+    update          = ! git fetch $(git for-each-ref --format='%(upstream:remotename)' '$(git symbolic-ref -q HEAD)') && git reset --hard $(git rev-parse --abbrev-ref --symbolic-full-name @{u})
+
+[rerere]
+    enabled         = 1
+
+[diff]
+#    external = ~/bin/git-icdiff
+
+[commit]
+   template = ~/.dotfiles/git_commit_msg
+   gpgsign = true
+[pager]
+    #diff = diff-so-fancy | less --tabs=1,5 -RFX
+    #show = diff-so-fancy | less --tabs=1,5 -RFX
+[http]
+    cookiefile = ~/.gitcookies
+[gc]
+    writeCommitGraph = true
+[fetch]
+    writeCommitGraph = true

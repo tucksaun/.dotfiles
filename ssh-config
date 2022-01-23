@@ -1,0 +1,37 @@
+Host *
+  #SendEnv LANG LC_*
+  ForwardAgent no
+  Compression  yes
+  KeepAlive    yes
+
+Host github.com
+  User git
+
+################
+# Hosts persos #
+################
+Host *.amazonaws.com
+  IdentityFile "~/Library/Mobile Documents/com\~apple\~CloudDocs/Preferences/amazon.pem"
+  User ubuntu
+
+Host router.home.tucksaun.net
+  Port 22
+
+Host rpi.tucksaun.net
+  ForwardAgent yes
+  Compression yes
+  Port 22220
+  Hostname 127.0.0.1
+  ProxyCommand ssh -W %h:%p fox.tucksaun.net
+
+Host *.tucksaun.net
+  User tucksaun
+  Port 2222
+  ForwardAgent yes
+  Compression yes
+
+# BEGIN: Platform.sh certificate configuration
+Host *.platform.sh
+  Include ~/.platformsh/ssh/*.config
+Host *
+# END: Platform.sh certificate configuration

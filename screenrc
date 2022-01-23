@@ -1,0 +1,21 @@
+#global
+altscreen       on
+autodetach      on
+startup_message off
+
+# auto-log
+logfile $HOME/.screen-logs/%Y%m%d-%n.log
+deflog 			on
+
+# no annoying audible bell, please
+vbell 			off
+
+# Change default scrollback value for new windows
+defscrollback 	50000
+
+# Caption
+caption always 	"%{Yb} %02d-%02m-%Y %0c %{k}|%{C} %H %{k}|%{G} %l %{k}|%{W} %-Lw%{R}%n %t%{W}%+Lw"
+
+# Term :
+# set these terminals up to be 'optimal' instead of vt100
+termcapinfo xterm*|linux*|rxvt*|Eterm* OP
