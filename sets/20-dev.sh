@@ -6,7 +6,7 @@ brew install \
     git \
     dos2unix \
     colordiff diffutils \
-    curl watch \
+    curl watch wget \
     postgresql \
     node yarn \
     python@3.8 python@3.9 python@3.10 \
