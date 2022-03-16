@@ -152,7 +152,7 @@ function audit_zip() {
   if [ ! -d $1 ]; then echo "Not a valid directory"; return 1; fi
   rm -Rf "$1-archive" || true
   git clone "$1" "$1-archive" && \
-  (cd "$1-archive" && git remote rm origin && git rebase --root --ignore-date && git-prune-for-archive && zip -9 -r "$1-audit.zip" .)
+  (cd "$1-archive" && git remote rm origin && git rebase --root --ignore-date && git-prune-for-archive && zip -9 -r "../$1-audit.zip" .)
 }
 
 ## Cool shortcut
