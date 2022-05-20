@@ -200,6 +200,8 @@ tucknet_upgrade() {
 eval "$(/opt/homebrew/bin/brew shellenv)"
 BREW_PREFIX=$(brew --prefix 2>/dev/null)
 PATH="${BREW_PREFIX}/opt/make/libexec/gnubin:$PATH"
+export LDFLAGS="-L${BREW_PREFIX}/lib/"
+export CPPFLAGS="-I${BREW_PREFIX}/include/"
 # export PATH="${BREW_PREFIX}/opt/python/Frameworks/Python.framework/Versions/Current/bin:${BREW_PREFIX}/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/local/sbin:$PATH" # These REALLY need to come first
 # export PATH="/usr/local/opt/curl/bin:$PATH"
 # export PATH="/usr/local/opt/bash/bin:$PATH"
