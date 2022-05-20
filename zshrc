@@ -289,9 +289,6 @@ unsetopt share_history
 # PERL_MB_OPT="--install_base \"${HOME}/perl5\""; export PERL_MB_OPT;
 # PERL_MM_OPT="INSTALL_BASE=${HOME}/perl5"; export PERL_MM_OPT;
 
-# Scaleway CLI autocomplete initialization.
-eval "$(scw autocomplete script shell=zsh)"
-
 # BEGIN SNIPPET: Platform.sh CLI configuration
 HOME=${HOME:-'/Users/tucksaun'}
 export PATH="$HOME/"'.platformsh/bin':"$PATH"
