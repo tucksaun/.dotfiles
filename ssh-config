@@ -18,11 +18,11 @@ Host router.home.tucksaun.net
   Port 22
 
 Host rpi.tucksaun.net
+  Hostname rpi.tucksaun.net
   ForwardAgent yes
   Compression yes
-  Port 22220
-  Hostname 127.0.0.1
-  ProxyCommand ssh -W %h:%p fox.tucksaun.net
+  Port 2222
+  ProxyCommand cloudflared access ssh --hostname %h
 
 Host *.tucksaun.net
   User tucksaun
