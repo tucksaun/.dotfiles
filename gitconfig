@@ -17,6 +17,7 @@
     autocrlf     = input
     excludesfile = ~/.dotfiles/gitglobalexclude
     commitGraph  = true
+    pager = delta
 
 [branch]
     autosetupmerge  = true
@@ -26,7 +27,6 @@
    default         = upstream
 
 [color]
-    #ui              = always
     diff            = true
     status          = auto
     branch          = always
@@ -48,7 +48,8 @@
     br              = branch -v -a
     brc             = ! git branch --no-color  --merged | \\grep -v master | \\grep -v '*' | xargs git branch -d
     lg              = log --graph --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset%s %Cgreen(%an %ar [%cn %cr])%Creset' --abbrev-commit --date=relative
-    lga             = log --graph --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset%s %Cgreen(%an %ar [%cn %cr])%Creset' --abbrev-commit --date=relative --all
+    lga             = lg --all
+    history         = log --graph --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset%s' --abbrev-commit --date=relative
     logfull         = log --pretty=fuller --graph --stat -p
     cat             = cat-file -p
     unstage         = reset HEAD
@@ -72,14 +73,21 @@
     enabled         = 1
 
 [diff]
-#    external = ~/bin/git-icdiff
+    colorMoved = default
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    light = false    # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+
+[merge]
+    conflictstyle = diff3
 
 [commit]
-   template = ~/.dotfiles/git_commit_msg
-   gpgsign = true
-[pager]
-    #diff = diff-so-fancy | less --tabs=1,5 -RFX
-    #show = diff-so-fancy | less --tabs=1,5 -RFX
+    template = ~/.dotfiles/git_commit_msg
+    gpgsign = true
 [http]
     cookiefile = ~/.gitcookies
 [gc]

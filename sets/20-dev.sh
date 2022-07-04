@@ -3,7 +3,7 @@ set -e
 
 brew install \
     coreutils findutils the_silver_searcher gnu-sed\
-    git \
+    git git-delta \
     dos2unix \
     colordiff diffutils \
     curl watch wget \
