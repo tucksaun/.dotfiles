@@ -6,10 +6,6 @@ if [ ! -d /Applications/BetterSnapTool.app ]; then
     mas install 417375580
 fi
 
-if [ ! -d /Applications/eqMac.app ]; then
-    brew install --cask eqmac
-fi
-
 if [ ! -d /Applications/Lunar.app ]; then
     brew install --cask lunar
 fi
