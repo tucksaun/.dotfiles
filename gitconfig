@@ -46,7 +46,9 @@
     cn              = commit --amend -C HEAD
     co              = checkout
     br              = branch -v -a
-    brc             = ! git branch --no-color  --merged | \\grep -v master | \\grep -v '*' | xargs git branch -d
+    merged          = ! git branch --no-color  --merged | \\grep -Ev 'master|main|develop' | \\grep -v '^*' | xargs git branch -d
+    # See https://www.erikschierboom.com/2020/02/17/cleaning-up-local-git-branches-deleted-on-a-remote/
+    gone            = ! git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}' | xargs -r git branch -D
     lg              = log --graph --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset%s %Cgreen(%an %ar [%cn %cr])%Creset' --abbrev-commit --date=relative
     lga             = lg --all
     history         = log --graph --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset%s' --abbrev-commit --date=relative
