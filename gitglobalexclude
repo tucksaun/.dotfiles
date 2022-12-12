@@ -1,4 +1,6 @@
 .DS_Store
+go.work
+go.work.sum
 *.iml
 *.ipr
 *.iws
