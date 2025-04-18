@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-if [ ! -d /Applications/Airtable.app ]; then
-    brew install --cask airtable
-fi
-
 if [ ! -d "/Applications/Toggl Track.app" ]; then
     brew install --cask toggl-track
 fi

@@ -2,7 +2,7 @@
 set -e
 
 echo " ** Setuping TimeMachine **"
-for exclusion in $HOME/Pictures/Raw "$HOME/Pictures/Lightroom Catalog" $HOME/Music $HOME/Movies $HOME/Library/Caches "$HOME/Library/Application Support/JetBrains" $HOME/.composer /Applications/Xcode.app "/Applications/Microsoft Word.app" "/Applications/Microsoft Excel.app" "/Applications/Microsoft PowerPoint.app" "/Applications/Adobe Creative Cloud" "/Applications/Adobe Photoshop 2022" "/Applications/Adobe Lightroom Classic"; do
+for exclusion in $HOME/Pictures/Raw "$HOME/Pictures/Lightroom Catalog" $HOME/Music $HOME/Movies $HOME/Library/Caches $HOME/Library/pnpm "$HOME/Library/Application Support/JetBrains" "$HOME/Library/Application Support/Spotify" "$HOME/Library/Application Support/Steam" "$HOME/Library/Application Support/Syncthing" $HOME/.composer $HOME/.asdf /Applications; do
     sudo tmutil addexclusion -p "$exclusion"
 done
 

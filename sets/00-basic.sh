@@ -55,7 +55,3 @@ fi
 if [ ! -d "/Applications/Google Drive.app" ]; then
     brew install --cask google-drive
 fi
-
-if ! command -v youtube-dl &> /dev/null; then
-    brew install youtube-dl
-fi

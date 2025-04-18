@@ -10,12 +10,6 @@ if [ ! -d /Applications/Lunar.app ]; then
     brew install --cask lunar
 fi
 
-# This one is anoying to install for now because it requires a full Xcode setup 😲
-# Let's hope we will soon have a binary release 🤩
-if [ ! -f /opt/homebrew/bin/autokbisw ]; then
-    (brew install ohueter/tap/autokbisw && brew services start ohueter/tap/autokbisw) || true
-fi
-
 # Let's have a productive terminal!
 if [ ! -d /Applications/iTerm.app ]; then
     brew install --cask iterm2
@@ -39,4 +33,5 @@ if [ ! -f "${HOME}/.ssh/config" ]; then
     mkdir -p "${HOME}/.ssh"
     ln -ns "${DOTFILE_DIR}/ssh-config" "${HOME}/.ssh/config"
     ln -ns "${HOME}/Library/Mobile Documents/com~apple~CloudDocs/Preferences/id_rsa" "${HOME}/.ssh/id_rsa"
+    ln -ns "${HOME}/Library/Mobile Documents/com~apple~CloudDocs/Preferences/ssh-config-perso" "${HOME}/.ssh/perso.config"
 fi
