@@ -26,7 +26,7 @@ if [ ! -d "${HOME}/.oh-my-zsh" ]; then
     mkdir -p "${HOME}/.oh-my-zsh/custom/plugins/icloud-credentials"
     ln -ns "${DOTFILE_DIR}/icloud-credentials.zsh-plugin" "${HOME}/.oh-my-zsh/custom/plugins/icloud-credentials/icloud-credentials.plugin.zsh"
     ln -ns "${DOTFILE_DIR}/tucksaun.zsh-theme" "${HOME}/.oh-my-zsh/custom/themes/tucksaun.zsh-theme"
-    ln -ns "${DOTFILE_DIR}/zshrc" "${HOME}/.zshrc"
+    ln -nsf "${DOTFILE_DIR}/zshrc" "${HOME}/.zshrc"
 fi
 
 if [ ! -f "${HOME}/.ssh/config" ]; then
