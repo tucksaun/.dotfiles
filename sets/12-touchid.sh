@@ -8,8 +8,10 @@ auth       sufficient     pam_tid.so\
 ' /etc/pam.d/sudo
 fi
 
-brew tap prbinu/touch2sudo
-brew install touch2sudo
+if ! which touch2sudo > /dev/null; then
+    brew tap prbinu/touch2sudo
+    brew install touch2sudo
+fi
 
 mkdir -p ~/Library/LaunchAgents
 cp "${DOTFILE_DIR}/me.tucksaun.ssh-agent.plist" ~/Library/LaunchAgents/me.tucksaun.ssh-agent.plist

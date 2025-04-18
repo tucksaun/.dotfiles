@@ -6,10 +6,6 @@ if [ ! -d /Applications/BetterSnapTool.app ]; then
     mas install 417375580
 fi
 
-if [ ! -d /Applications/Lunar.app ]; then
-    brew install --cask lunar
-fi
-
 # Let's have a productive terminal!
 if [ ! -d /Applications/iTerm.app ]; then
     brew install --cask iterm2
