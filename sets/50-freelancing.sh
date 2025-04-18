@@ -2,7 +2,7 @@
 set -e
 
 if [ ! -d "/Applications/Toggl Track.app" ]; then
-    brew install --cask toggl-track
+    mas install 1291898086
 fi
 
 if [ ! -d "/Applications/Edison Mail.app" ]; then
