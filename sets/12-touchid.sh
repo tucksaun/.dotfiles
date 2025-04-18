@@ -8,15 +8,13 @@ auth       sufficient     pam_tid.so\
 ' /etc/pam.d/sudo
 fi
 
-if ! which touch2sudo > /dev/null; then
-    brew tap prbinu/touch2sudo
-    brew install touch2sudo
+# If the directory is not present it means the OS will not support LaunchAgents
+# and we should not try to copy the plist file or load it
+if [ -d  ~/Library/LaunchAgents ]; then
+    cp "${DOTFILE_DIR}/me.tucksaun.ssh-agent.plist" ~/Library/LaunchAgents/me.tucksaun.ssh-agent.plist
+    launchctl load -w ~/Library/LaunchAgents/me.tucksaun.ssh-agent.plist
+    launchctl stop "user/$UID/com.openssh.ssh-agent"
+    launchctl disable "user/$UID/com.openssh.ssh-agent"
+    launchctl enable "user/$UID/me.tucksaun.ssh-agent"
+    launchctl start "user/$UID/me.tucksaun.ssh-agent"
 fi
-
-mkdir -p ~/Library/LaunchAgents
-cp "${DOTFILE_DIR}/me.tucksaun.ssh-agent.plist" ~/Library/LaunchAgents/me.tucksaun.ssh-agent.plist
-launchctl load -w ~/Library/LaunchAgents/me.tucksaun.ssh-agent.plist
-launchctl stop "user/$UID/com.openssh.ssh-agent"
-launchctl disable "user/$UID/com.openssh.ssh-agent"
-launchctl enable "user/$UID/me.tucksaun.ssh-agent"
-launchctl start "user/$UID/me.tucksaun.ssh-agent"
