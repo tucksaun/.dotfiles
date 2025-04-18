@@ -11,6 +11,7 @@ fi
 brew tap prbinu/touch2sudo
 brew install touch2sudo
 
+mkdir -p ~/Library/LaunchAgents
 cp "${DOTFILE_DIR}/me.tucksaun.ssh-agent.plist" ~/Library/LaunchAgents/me.tucksaun.ssh-agent.plist
 launchctl load -w ~/Library/LaunchAgents/me.tucksaun.ssh-agent.plist
 launchctl stop "user/$UID/com.openssh.ssh-agent"
