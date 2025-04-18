@@ -1,37 +1,21 @@
 Host *
   #SendEnv LANG LC_*
+  AddKeysToAgent yes
+  # UseKeychain yes
   ForwardAgent no
   Compression  yes
   KeepAlive    yes
+  IdentityFile ~/.ssh/id_ed25519
+  IdentityFile ~/.ssh/id_rsa
 
 Host github.com
   User git
-
-################
-# Hosts persos #
-################
-Host *.amazonaws.com
-  IdentityFile "~/Library/Mobile Documents/com\~apple\~CloudDocs/Preferences/amazon.pem"
-  User ubuntu
-
-Host router.home.tucksaun.net
-  Port 22
-
-Host rpi.tucksaun.net
-  Hostname rpi.tucksaun.net
-  ForwardAgent yes
-  Compression yes
-  Port 2222
-  ProxyCommand cloudflared access ssh --hostname %h
-
-Host *.tucksaun.net
-  User tucksaun
-  Port 2222
-  ForwardAgent yes
-  Compression yes
 
 # BEGIN: Platform.sh certificate configuration
 Host *.platform.sh
   Include ~/.platformsh/ssh/*.config
 Host *
 # END: Platform.sh certificate configuration
+
+Include ~/.ssh/*.config
+

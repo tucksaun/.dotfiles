@@ -1,10 +1,10 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-if [ ! -z ${SSH_AUTH_SOCK_ASKPASS+x} ]; then
-  export SSH_AUTH_SOCK="${SSH_AUTH_SOCK_ASKPASS}"
-  /usr/bin/ssh-add --apple-use-keychain -c
-fi
+# if [ ! -z ${SSH_AUTH_SOCK_ASKPASS+x} ]; then
+#   export SSH_AUTH_SOCK="${SSH_AUTH_SOCK_ASKPASS}"
+#   /usr/bin/ssh-add --apple-use-keychain -c
+# fi
 
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
@@ -79,8 +79,10 @@ plugins=(
     git
     colored-man-pages
     icloud-credentials
+    # per-directory-history
     # aws
     # golang
+    asdf
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -216,7 +218,7 @@ export CPPFLAGS="-I${BREW_PREFIX}/include/"
 # PHP
 ########################################################################################
 export COMPOSER_HOME=$HOME/.composer
-export PATH=$COMPOSER_HOME/vendor/bin:$PATH
+export PATH=$COMPOSER_HOME/vendor/bin:$HOME/Work/src/github.com/tucksaun/export-compte/bin:$PATH
 
 ########################################################################################
 # Chef
@@ -283,10 +285,12 @@ zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<-
 # autoload -U +X bashcompinit && bashcompinit
 autoload -Uz compinit && compinit
 
-
+# makefiles
+zstyle ':completion:*:make:*:targets' call-command true
+zstyle ':completion:*:*:make:*' tag-order 'targets'
 
 setopt no_share_history
-unsetopt share_history
+# unsetopt share_history
 
 # PATH="${HOME}/perl5/bin${PATH:+:${PATH}}"; export PATH;
 # PERL5LIB="${HOME}/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
@@ -294,9 +298,13 @@ unsetopt share_history
 # PERL_MB_OPT="--install_base \"${HOME}/perl5\""; export PERL_MB_OPT;
 # PERL_MM_OPT="INSTALL_BASE=${HOME}/perl5"; export PERL_MM_OPT;
 
-# BEGIN SNIPPET: Platform.sh CLI configuration
-HOME=${HOME:-'/Users/tucksaun'}
-export PATH="$HOME/"'.platformsh/bin':"$PATH"
-if [ -f "$HOME/"'.platformsh/shell-config.rc' ]; then . "$HOME/"'.platformsh/shell-config.rc'; fi # END SNIPPET
 export PATH="/opt/homebrew/opt/bison/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/bison/lib"
+
+# pnpm
+export PNPM_HOME="/Users/tucksaun/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm endsource "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
+
+eval "$(direnv hook zsh)"
+autoload -U +X bashcompinit && bashcompinit

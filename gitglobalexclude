@@ -8,14 +8,18 @@ go.work.sum
 .idea
 *.pyc
 *.sw?
+.*.bkp
 .sonar
 .svn
 .TODO*
 TODO.*
+TODO
 .php_cs
 .php_cs.cache
 .bundle
 .vscode
+.envrc
+compose.override.yml
 docker-compose.override.yml
 
 # Eclipse

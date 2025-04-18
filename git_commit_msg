@@ -1,5 +1,14 @@
+## Remember to follow: https://www.conventionalcommits.org/en/v1.0.0/#summary
 # If applied, this commit will...
+# <type>[optional scope]: <description>
 
-# Explain why this change is being made
+Signed-off-by: Tugdual Saunier <tugdual.saunier@gmail.com>
 
-# Provide links to any relevant tickets, articles or other resources
+## Examples
+# feat: allow provided config object to extend other configs
+# feat(lang): add polish language
+# fix: correct minor typos in code
+# docs: correct spelling of CHANGELOG
+# refactor!: drop support for Node 6
+#
+# BREAKING CHANGE: refactor to use JavaScript features not available in Node 6.

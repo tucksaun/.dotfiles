@@ -1,7 +1,7 @@
 [user]
     name       = Tugdual Saunier
     email      = tugdual.saunier@gmail.com
-    signingkey = D2ACF5DCE38C9C71
+    signingkey = /Users/tucksaun/.ssh/id_ed25519
 
 [github]
     user  = tucksaun
@@ -9,6 +9,13 @@
 
 [include]
    path = "~/Library/Mobile Documents/com~apple~CloudDocs/Preferences/gitconfig.github"
+
+[includeIf "hasconfig:remote.*.url:git@git.smile.fr:*/**"]
+   path = "~/Library/Mobile Documents/com~apple~CloudDocs/Preferences/gitconfig.work"
+[includeIf "gitdir:~/Work/SensioLabs/"]
+   path = "~/Library/Mobile Documents/com~apple~CloudDocs/Preferences/gitconfig.work"
+[includeIf "gitdir:~/Work/T5L/"]
+   path = "~/Library/Mobile Documents/com~apple~CloudDocs/Preferences/gitconfig.work"
 
 [url "ssh://git@github.com/"]
    insteadOf = https://github.com/
@@ -42,7 +49,7 @@
     ds              = diff --staged
     st              = status
     ci              = commit
-    fabpot          = commit -m '-'
+    fabpot          = commit --no-verify -m '-'
     cn              = commit --amend -C HEAD
     co              = checkout
     br              = branch -v -a
@@ -66,7 +73,7 @@
     rebs            = rebase --skip
     workprofile     = config user.email \"tugdual.saunier@blackfire.io\"
 #    cs-fix          = ! git st | \\grep -E \"modified|new\" | \\grep -E \"\\.php$\" | awk -F\" \" '{print $(NF)}' | xargs -n 1 php-cs-fixer fix
-    cs-fix          = ! git status --porcelain | /usr/bin/grep -e '^[AUM ][UM ].*\\.php$' | awk '{print $2}' | gxargs --no-run-if-empty -L 1 php -n $(which php-cs-fixer) fix && git status --porcelain | /usr/bin/grep -e '^[AUM ][UM ].*\\.go$' | awk '{print $2}' | gxargs --no-run-if-empty -L 1 go fmt
+    cs-fix          = ! git status --porcelain | /usr/bin/grep -e '^[AUM ][UM ].*\\.php$' | awk '{print $2}' | gxargs --no-run-if-empty -L 1 symfony php -n $(which php-cs-fixer) fix && git status --porcelain | /usr/bin/grep -e '^[AUM ][UM ].*\\.go$' | awk '{print $2}' | gxargs --no-run-if-empty -L 1 go fmt
     new             = ! git checkout origin/master -b $(echo $@ | sed 's/ /\\-/g') &&  echo $@ >/dev/null
     latest          = for-each-ref --count=10 --sort=-committerdate refs/heads/ --format='%(refname:short)'
     update          = ! git fetch $(git for-each-ref --format='%(upstream:remotename)' '$(git symbolic-ref -q HEAD)') && git reset --hard $(git rev-parse --abbrev-ref --symbolic-full-name @{u})
@@ -90,9 +97,15 @@
 [commit]
     template = ~/.dotfiles/git_commit_msg
     gpgsign = true
+[gpg]
+    format = ssh
 [http]
     cookiefile = ~/.gitcookies
 [gc]
     writeCommitGraph = true
 [fetch]
     writeCommitGraph = true
+[init]
+    defaultBranch = main
+[gpg "ssh"]
+    allowedSignersFile = ~/.ssh/allowed_signers
