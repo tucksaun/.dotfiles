@@ -1,6 +1,10 @@
-.DS_Store
+(?d).DS_Store
+(?d)Thumbs.db
+(?d)desktop.ini
 .AppleDB
 .AppleDesktop
 .apdisk
+.Trashes
+.Spotlight-V100
 Icon
 ~$*
