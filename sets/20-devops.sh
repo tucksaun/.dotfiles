@@ -2,8 +2,7 @@
 set -e
 
 brew install \
-    s3cmd scw awscli terraform \
-    shellcheck
+    s3cmd scw awscli shellcheck
 
 if [ ! -d "/Applications/Blackmagic Disk Speed Test.app" ]; then
     mas install 425264550
