@@ -17,6 +17,14 @@
 [includeIf "gitdir:~/Work/T5L/"]
    path = "~/Library/Mobile Documents/com~apple~CloudDocs/Preferences/gitconfig.work"
 
+[includeIf "gitdir:~/Work/src/github.com/symfony/"]
+   path = "~/Library/Mobile Documents/com~apple~CloudDocs/Preferences/gitconfig.sf"
+[includeIf "gitdir:~/Work/src/github.com/symfony-cli/"]
+   path = "~/Library/Mobile Documents/com~apple~CloudDocs/Preferences/gitconfig.sf"
+[includeIf "gitdir:~/Work/src/github.com/symfony-tools/"]
+   path = "~/Library/Mobile Documents/com~apple~CloudDocs/Preferences/gitconfig.sf"
+
+
 [url "ssh://git@github.com/"]
    insteadOf = https://github.com/
 
@@ -109,3 +117,5 @@
     defaultBranch = main
 [gpg "ssh"]
     allowedSignersFile = ~/.ssh/allowed_signers
+[gh]
+    remote = upstream

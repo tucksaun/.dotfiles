@@ -219,6 +219,9 @@ export CPPFLAGS="-I${BREW_PREFIX}/include/"
 ########################################################################################
 export COMPOSER_HOME=$HOME/.composer
 export PATH=$COMPOSER_HOME/vendor/bin:$HOME/Work/src/github.com/tucksaun/export-compte/bin:$PATH
+export SYMFONY_IDE="idea://open?file=%f&line=%l"
+alias php="symfony php"
+alias composer="symfony composer"
 
 ########################################################################################
 # Chef
@@ -308,3 +311,15 @@ export PATH="$PNPM_HOME:$PATH"
 
 eval "$(direnv hook zsh)"
 autoload -U +X bashcompinit && bashcompinit
+
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/tucksaun/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
+
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
+eval "$(pyenv virtualenv-init -)"

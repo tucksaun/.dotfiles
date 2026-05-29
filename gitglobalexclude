@@ -21,6 +21,7 @@ TODO
 .envrc
 compose.override.yml
 docker-compose.override.yml
+Makefile.local.docker
 
 # Eclipse
 .project
