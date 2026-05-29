@@ -23,3 +23,11 @@ if [ ! -f "${HOME}/.ssh/config" ]; then
     ln -ns "${HOME}/Library/Mobile Documents/com~apple~CloudDocs/Preferences/id_rsa" "${HOME}/.ssh/id_rsa"
     ln -ns "${HOME}/Library/Mobile Documents/com~apple~CloudDocs/Preferences/ssh-config-perso" "${HOME}/.ssh/perso.config"
 fi
+
+if [ ! -d /Applications/MonitorControl.app ]; then
+    brew install --cask monitorcontrol
+fi
+
+if [ ! -d /Applications/Tailscale.app ]; then
+    brew install --cask tailscale-app
+fi

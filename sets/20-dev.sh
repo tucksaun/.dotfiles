@@ -25,12 +25,24 @@ if [ ! -d /Applications/Slack.app ]; then
     brew install --cask slack
 fi
 
+if [ ! -d /Applications/Mattermost.app ]; then
+    brew install --cask mattermost
+fi
+
 if [ ! -d "/Applications/Visual Studio Code.app" ]; then
     brew install --cask visual-studio-code
 fi
 
 if [ ! -d "/Applications/IntelliJ IDEA.app" ]; then
     brew install --cask intellij-idea
+fi
+
+if [ ! -d "/Applications/Docker.app" ]; then
+    brew install --cask docker-desktop
+fi
+
+if [ ! -d /Applications/Claude.app ]; then
+    brew install claude claude-code
 fi
 
 # Git settings
