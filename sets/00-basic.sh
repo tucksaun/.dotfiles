@@ -32,24 +32,12 @@ if [ ! -d /Applications/VLC.app ]; then
     brew install --cask vlc
 fi
 
-if [ ! -d /Applications/Messenger.app ]; then
-    brew install --cask messenger
-fi
-
 if [ ! -d /Applications/Signal.app ]; then
     brew install --cask signal
 fi
 
 if [ ! -d /Applications/WhatsApp.app ]; then
     brew install --cask whatsapp
-fi
-
-if [ ! -d /Applications/Skype.app ]; then
-    brew install --cask skype
-fi
-
-if [ ! -d /Applications/Steam.app ]; then
-    brew install --cask steam
 fi
 
 if [ ! -d "/Applications/Google Drive.app" ]; then

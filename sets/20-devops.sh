@@ -21,10 +21,6 @@ if [ ! -d /Applications/balenaEtcher.app ]; then
     brew install --cask balenaetcher
 fi
 
-if [ ! -d "/Applications/DB Browser for SQLite.app" ]; then
-    brew install --cask db-browser-for-sqlite
-fi
-
 if [ ! -f ~/.screenrc ]; then
     ln -nsf "${DOTFILE_DIR}/screenrc" "${HOME}/.screenrc"
 fi

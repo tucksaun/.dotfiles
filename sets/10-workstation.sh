@@ -1,18 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
-# Nice tools for a nice workstation setup
-if [ ! -d /Applications/BetterSnapTool.app ]; then
-    mas install 417375580
-fi
 
-# Let's have a productive terminal!
-if [ ! -d /Applications/iTerm.app ]; then
-    brew install --cask iterm2
-    # Specify the preferences directory
-    defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "${HOME}/Library/Mobile Documents/com~apple~CloudDocs/Preferences"
-    # Tell iTerm2 to use the custom preferences in the directory
-    defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
+# Let's get a productive terminal!
+if [ ! -d /Applications/Ghostty.app ]; then
+    brew install --cask ghostty
 fi
 
 # Oh My ZSH

@@ -21,10 +21,6 @@ if [ ! -d /Applications/Firefox.app ]; then
     brew install --cask firefox
 fi
 
-if [ ! -d /Applications/Postman.app ]; then
-    brew install --cask postman
-fi
-
 if [ ! -d /Applications/Slack.app ]; then
     brew install --cask slack
 fi
